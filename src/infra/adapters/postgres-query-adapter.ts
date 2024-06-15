@@ -1,0 +1,112 @@
+import { DeleteQueryInterface, InsertQueryInterface, QueryField, SelectQueryInterface, UpdateQueryInterface } from "../database/@shared/query-interface"
+
+export class PostgresQueryAdapter {
+  static find(input: SelectQueryInterface): string {
+    let query = 'SELECT '
+
+    for (const field of input.fields) {
+      query += `${field.name},`
+    }
+
+    query = query.slice(0, -1)
+
+    query += ` FROM ${input.table} `
+
+    query += this.createWhereCondition(input.where)
+
+    return query
+  }
+
+  static insert(input: InsertQueryInterface): string {
+
+    if(input.fields.length === 0) {
+      throw new Error('Insert query needs at least one field')
+    }
+
+    let query = `INSERT INTO ${input.table} (`
+    const fieldsName = input.fields.map((data) => data.name)
+
+    const fieldsValue = input.fields.map((data) => this.formatQueryValue(data))
+
+
+    for (const fieldName of fieldsName) {
+      query += `${fieldName},`
+    }
+
+    query = query.slice(0, -1)
+
+    query += `) VALUES (`
+
+    for (const fieldValue of fieldsValue) {
+      query += `${fieldValue},`
+    }
+
+    query = query.slice(0, -1)
+
+    query += ') '
+
+    if(input.retuning) {
+      query += `RETURNING ${input.retuning.name}`
+    }
+
+    return query
+  }
+
+  static update(input: UpdateQueryInterface): string {
+
+    if(input.fields.length === 0) {
+      throw new Error('UPDATE query needs at least one field')
+    }
+
+    if(input.where.length === 0) {
+      throw new Error('UPDATE query needs at least one field on where condition')
+    }
+
+    let query = `UPDATE ${input.table} SET `
+
+
+    for (const field of input.fields) {
+      const value = this.formatQueryValue(field)
+      query += `${field.name} = ${value},`
+    }
+
+    query = query.slice(0, -1)
+
+    query += this.createWhereCondition(input.where)
+
+    return query
+  }
+
+  static delete(input: DeleteQueryInterface): string {
+    if(input.where.length === 0) {
+      throw new Error('DELETE query needs at least one field on where condition')
+    }
+
+    let query = `DELETE FROM ${input.table} `
+
+    query += this.createWhereCondition(input.where)
+
+    return query
+  }
+
+
+  static formatQueryValue(field: QueryField): string {
+    const value = field.value && typeof field.value === 'string' ? `'${field.value}'` : `${field.value}`
+    return value
+  }
+
+  static createWhereCondition(fields?: QueryField[]): string {
+    let whereCondition = ''
+    if (fields && fields.length > 0) {
+      whereCondition += ' WHERE '
+  
+      for (const field of fields) {
+        const value = this.formatQueryValue(field)
+        whereCondition += `${field.name} = ${value} AND`
+      }
+  
+      whereCondition = whereCondition.slice(0, -3)
+    }
+    return whereCondition
+  }
+}
