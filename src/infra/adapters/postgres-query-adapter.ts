@@ -1,4 +1,4 @@
-import { DeleteQueryInterface, InsertQueryInterface, QueryField, SelectQueryInterface, UpdateQueryInterface } from "../database/@shared/query-interface"
+import { DeleteQueryInterface, InsertQueryInterface, QueryField, SelectQueryInterface, SimpleField, UpdateQueryInterface } from "../database/@shared/query-interface"
 
 export class PostgresQueryAdapter {
   static find(input: SelectQueryInterface): string {
@@ -13,6 +13,10 @@ export class PostgresQueryAdapter {
     query += ` FROM ${input.table} `
 
     query += this.createWhereCondition(input.where)
+
+    query = this.createGroupByOROrderBy(query, "GROUP", input.groupBy)
+
+    query = this.createGroupByOROrderBy(query, "ORDER", input.orderBy)
 
     return query
   }
@@ -117,5 +121,24 @@ export class PostgresQueryAdapter {
       whereCondition = this.removeWordOfString(whereCondition, 'AND ', -4)
     }
     return whereCondition
+  }
+
+  static createGroupByOROrderBy(query: string, type: 'GROUP' | 'ORDER', fields?: SimpleField[]): string {
+    if (fields && fields.length === 0) {
+      throw new Error(`${type} BY condition needs at least one field`)
+    }
+    
+    
+    if(fields) {
+      query += type === 'GROUP' ? ' GROUP BY ' : type === 'ORDER' ? ' ORDER BY ' : '';
+
+      for (const field of fields) {
+        query += `${field.name},`
+      }
+  
+      query = this.removeWordOfString(query, ',', -1)
+    }
+    
+    return query
   }
 }

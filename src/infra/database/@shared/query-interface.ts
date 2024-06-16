@@ -2,6 +2,8 @@ export interface SelectQueryInterface {
     table: string
     fields: QueryField[]
     where?: QueryField[]
+    orderBy?: SimpleField[]
+    groupBy?: SimpleField[]
 }
 
 export interface DeleteQueryInterface {
@@ -25,4 +27,8 @@ export interface QueryField {
     name: string
     value?: string | number | boolean | Date | null
     equal?: boolean
+}
+
+export interface SimpleField {
+    name: string
 }
