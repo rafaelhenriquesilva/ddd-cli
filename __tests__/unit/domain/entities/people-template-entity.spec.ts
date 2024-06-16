@@ -6,7 +6,9 @@ const createEntity = () => {
         age,
         name: faker.string.sample(),
         birthDate: new Date(new Date().setFullYear(-(age))),
-        id: faker.number.int()
+        id: faker.number.int(),
+        createdAt: new Date(),
+        updatedAt: new Date()
     }) 
 }
 
@@ -19,7 +21,9 @@ describe('People Entity ', () => {
             id: people.id,
             name: people.name,
             age: people.age,
-            birthDate: people.birthDate
+            birthDate: people.birthDate,
+            createdAt: people.createdAt,
+            updatedAt: people.updatedAt
         })
     })
     it('update a People Entity', () => {
@@ -33,7 +37,9 @@ describe('People Entity ', () => {
             id: people.id,
             name: mockToUpdate.name,
             age: mockToUpdate.age,
-            birthDate
+            birthDate,
+            createdAt: people.createdAt,
+            updatedAt: people.updatedAt
         })
     })
 })
