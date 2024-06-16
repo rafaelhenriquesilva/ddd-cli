@@ -104,14 +104,14 @@ describe('Find Query Util Mehods', () =>  {
   it('should throw error when trying create a select query with group by with empty array', () => {
     const type = 'GROUP'
     const invokeFind = () => PostgresQueryAdapter.find({
-        fields: [{
-          name: 'field1'
-        }],
-        table: 'mockTable',
-        groupBy: []
-      })
+      fields: [{
+        name: 'field1'
+      }],
+      table: 'mockTable',
+      groupBy: []
+    })
   
-      expect(invokeFind).toThrow(`${type} BY condition needs at least one field`)
+    expect(invokeFind).toThrow(`${type} BY condition needs at least one field`)
   })
 
   it('create a select query with order by', () => {
@@ -136,14 +136,14 @@ describe('Find Query Util Mehods', () =>  {
   it('should throw error when trying create a select query with order by with empty array', () => {
     const type = 'ORDER'
     const invokeFind = () => PostgresQueryAdapter.find({
-        fields: [{
-          name: 'field1'
-        }],
-        table: 'mockTable',
-        orderBy: []
-      })
+      fields: [{
+        name: 'field1'
+      }],
+      table: 'mockTable',
+      orderBy: []
+    })
   
-      expect(invokeFind).toThrow(`${type} BY condition needs at least one field`)
+    expect(invokeFind).toThrow(`${type} BY condition needs at least one field`)
   })
 
   it('create a select query with where, group by, order by', () => {
@@ -164,8 +164,8 @@ describe('Find Query Util Mehods', () =>  {
       ],
       where: [
         {
-            name: 'id',
-            value: 1
+          name: 'id',
+          value: 1
         }
       ]
     })

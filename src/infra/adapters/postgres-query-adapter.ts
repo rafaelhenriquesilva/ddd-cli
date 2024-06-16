@@ -130,7 +130,7 @@ export class PostgresQueryAdapter {
     
     
     if(fields) {
-      query += type === 'GROUP' ? ' GROUP BY ' : type === 'ORDER' ? ' ORDER BY ' : '';
+      query += type === 'GROUP' ? ' GROUP BY ' : type === 'ORDER' ? ' ORDER BY ' : ''
 
       for (const field of fields) {
         query += `${field.name},`
