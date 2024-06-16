@@ -18,9 +18,10 @@ export class PostgresQueryAdapter {
   }
 
   static insert(input: InsertQueryInterface): string {
+    input.fields = input.fields.filter(field => field.value !== undefined && field.value !== null)
 
     if(input.fields.length === 0) {
-      throw new Error('Insert query needs at least one field')
+      throw new Error('Insert query needs at least one field. Verify if the fields have correct values!')
     }
 
     let query = `INSERT INTO ${input.table} (`
@@ -53,13 +54,16 @@ export class PostgresQueryAdapter {
   }
 
   static update(input: UpdateQueryInterface): string {
-
+    input.fields = input.fields.filter(field => field.value !== undefined && field.value !== null)
+    
     if(input.fields.length === 0) {
-      throw new Error('UPDATE query needs at least one field')
+      throw new Error('UPDATE query needs at least one field. Verify if the fields have correct values!')
     }
 
+    input.where = input.where.filter(field => field.value !== undefined && field.value !== null)
+
     if(input.where.length === 0) {
-      throw new Error('UPDATE query needs at least one field on where condition')
+      throw new Error('UPDATE query needs at least one field on where condition. Verify if the fields have correct values!')
     }
 
     let query = `UPDATE ${input.table} SET `
@@ -78,8 +82,9 @@ export class PostgresQueryAdapter {
   }
 
   static delete(input: DeleteQueryInterface): string {
+    input.where = input.where.filter(field => field.value !== undefined && field.value !== null)
     if(input.where.length === 0) {
-      throw new Error('DELETE query needs at least one field on where condition')
+      throw new Error('DELETE query needs at least one field on where condition. Verify if the fields have correct values!')
     }
 
     let query = `DELETE FROM ${input.table} `

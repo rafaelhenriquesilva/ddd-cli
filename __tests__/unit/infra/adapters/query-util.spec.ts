@@ -109,7 +109,19 @@ describe('Query Util Mehods', () =>  {
       table: 'mockTable'
     })
 
-    expect(invokeInsert).toThrow('Insert query needs at least one field')
+    expect(invokeInsert).toThrow('Insert query needs at least one field. Verify if the fields have correct values!')
+  })
+
+  it('should throw error when trying to create an insert query with undefined values on fields', () => {
+    const invokeInsert = () => PostgresQueryAdapter.insert({
+      fields: [{
+        name: 'field3',
+        value: undefined
+      }],
+      table: 'mockTable'
+    })
+
+    expect(invokeInsert).toThrow('Insert query needs at least one field. Verify if the fields have correct values!')
   })
 
   it('create a update query', () => {
@@ -153,8 +165,27 @@ describe('Query Util Mehods', () =>  {
       ]
     })
 
-    expect(invokeUpdate).toThrow('UPDATE query needs at least one field')
+    expect(invokeUpdate).toThrow('UPDATE query needs at least one field. Verify if the fields have correct values!')
   })
+
+  it('should throw error when trying to create an update query with undefined values fields', () => {
+    const invokeUpdate = () => PostgresQueryAdapter.update({
+      fields: [{
+        name: 'field1',
+        value: undefined
+      }],
+      table: 'mockTable',
+      where: [
+        {
+          name: 'id',
+          value: 1
+        }
+      ]
+    })
+
+    expect(invokeUpdate).toThrow('UPDATE query needs at least one field. Verify if the fields have correct values!')
+  })
+  
 
   it('should throw error when trying to create an update query with empty fields on where condition', () => {
     const invokeUpdate = () => PostgresQueryAdapter.update({
@@ -166,7 +197,23 @@ describe('Query Util Mehods', () =>  {
       where: []
     })
 
-    expect(invokeUpdate).toThrow('UPDATE query needs at least one field on where condition')
+    expect(invokeUpdate).toThrow('UPDATE query needs at least one field on where condition. Verify if the fields have correct values!')
+  })
+
+  it('should throw error when trying to create an update query with fields with undefined value on where condition', () => {
+    const invokeUpdate = () => PostgresQueryAdapter.update({
+      fields: [{
+        name: 'field1',
+        value: 10
+      }],
+      table: 'mockTable',
+      where: [{
+        name: 'test',
+        value: undefined
+      }]
+    })
+
+    expect(invokeUpdate).toThrow('UPDATE query needs at least one field on where condition. Verify if the fields have correct values!')
   })
 
   it('create a delete query', () => {
@@ -190,7 +237,7 @@ describe('Query Util Mehods', () =>  {
       where: []
     })
 
-    expect(invokeDelete).toThrow('DELETE query needs at least one field on where condition')
+    expect(invokeDelete).toThrow('DELETE query needs at least one field on where condition. Verify if the fields have correct values!')
   })
 
 })
