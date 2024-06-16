@@ -7,11 +7,11 @@ CREATE TABLE IF NOT EXISTS people (
 
 SELECT table_name
 FROM information_schema.tables
-WHERE table_schema = 'nome_do_schema'
-  AND table_type = 'BASE TABLE';
+WHERE table_schema = 'public';
 
-  SELECT column_name, data_type, is_nullable, column_default
-FROM information_schema.columns
-WHERE table_schema = 'nome_do_schema'
-  AND table_name = 'nome_da_tabela';
+SELECT column_name, data_type, is_nullable, column_default
+	FROM information_schema.columns
+	WHERE table_schema = 'public'
+  	AND table_name = 'people' 
+
 
