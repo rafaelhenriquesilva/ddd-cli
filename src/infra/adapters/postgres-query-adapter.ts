@@ -111,7 +111,7 @@ export class PostgresQueryAdapter {
   
       for (const field of fields) {
         const value = this.formatQueryValue(field)
-        whereCondition += `${field.name} = ${value} AND `
+        whereCondition += `${field.name} ${field.equal === false ? '!=' : '='} ${value} AND `
       }
   
       whereCondition = this.removeWordOfString(whereCondition, 'AND ', -4)

@@ -24,4 +24,5 @@ export interface InsertQueryInterface {
 export interface QueryField {
     name: string
     value?: string | number | boolean | Date | null
+    equal?: boolean
 }

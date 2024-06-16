@@ -18,7 +18,7 @@ describe('Query Util Mehods', () =>  {
     expect(query.includes('WHERE')).toBe(false)
   })
 
-  it('create a select query with where', () => {
+  it('create a select query with where equal', () => {
     const query = PostgresQueryAdapter.find({
       fields: [{
         name: 'field1'
@@ -51,6 +51,33 @@ describe('Query Util Mehods', () =>  {
     expect(query.includes(`field1 = 'test' AND`)).toBe(true)
     expect(query.includes('field2 = true AND')).toBe(true)
     expect(query.includes('field3 = 10')).toBe(true)
+    expect(query.substring(0,-3) !== 'AND').toBe(true)
+  })
+
+  it('create a select query with where equal', () => {
+    const query = PostgresQueryAdapter.find({
+      fields: [{
+        name: 'field1'
+      },
+      {
+        name: 'field2'
+      },
+      {
+        name: 'field3'
+      }],
+      table: 'mockTable',
+      where: [
+        {
+          name: 'field1',
+          equal: false,
+          value: "test"
+        }
+      ]
+    })
+
+    expect(query.includes('SELECT field1,field2,field3 FROM mockTable')).toBe(true)
+    expect(query.includes('WHERE')).toBe(true)
+    expect(query.includes(`field1 != 'test'`)).toBe(true)
     expect(query.substring(0,-3) !== 'AND').toBe(true)
   })
 
@@ -124,7 +151,7 @@ describe('Query Util Mehods', () =>  {
     expect(invokeInsert).toThrow('Insert query needs at least one field. Verify if the fields have correct values!')
   })
 
-  it('create a update query', () => {
+  it('create a update query with where equal', () => {
     const query = PostgresQueryAdapter.update({
       fields: [{
         name: 'field1',
@@ -152,6 +179,37 @@ describe('Query Util Mehods', () =>  {
     expect(query.includes(`field3 = true`)).toBe(true)
     expect(query.includes(`WHERE id = 1`)).toBe(true)
   })
+
+  it('create a update query with where not equal', () => {
+    const query = PostgresQueryAdapter.update({
+      fields: [{
+        name: 'field1',
+        value: 10
+      },
+      {
+        name: 'field2',
+        value: 'test'
+      },
+      {
+        name: 'field3',
+        value: true
+      }],
+      table: 'mockTable',
+      where: [
+        {
+          name: 'id',
+          equal: false,
+          value: 1
+        }
+      ]
+    })
+    expect(query.includes('UPDATE mockTable SET')).toBe(true)
+    expect(query.includes('field1 = 10')).toBe(true)
+    expect(query.includes(`field2 = 'test'`)).toBe(true)
+    expect(query.includes(`field3 = true`)).toBe(true)
+    expect(query.includes(`WHERE id != 1`)).toBe(true)
+  })
+
 
   it('should throw error when trying to create an update query with empty fields', () => {
     const invokeUpdate = () => PostgresQueryAdapter.update({
@@ -216,7 +274,7 @@ describe('Query Util Mehods', () =>  {
     expect(invokeUpdate).toThrow('UPDATE query needs at least one field on where condition. Verify if the fields have correct values!')
   })
 
-  it('create a delete query', () => {
+  it('create a delete query with where equal', () => {
     const query = PostgresQueryAdapter.delete({
       table: 'mockTable',
       where: [
@@ -229,6 +287,22 @@ describe('Query Util Mehods', () =>  {
     
     expect(query.includes('DELETE FROM mockTable')).toBe(true)
     expect(query.includes(`WHERE name = 'test'`)).toBe(true)
+  })
+
+  it('create a delete query with where not equal', () => {
+    const query = PostgresQueryAdapter.delete({
+      table: 'mockTable',
+      where: [
+        {
+          name: 'name',
+          equal: false,
+          value: 'test'
+        }
+      ]
+    })
+    
+    expect(query.includes('DELETE FROM mockTable')).toBe(true)
+    expect(query.includes(`WHERE name != 'test'`)).toBe(true)
   })
 
   it('should throw error when trying to create an delete query with empty fields on where condition', () => {
