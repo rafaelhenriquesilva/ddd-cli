@@ -18,13 +18,13 @@ const dropTable = () => {
 
 describe('Table people_fake: database actions', () => {
   let connection: DatabaseConnection
-  let peopleId: any;
-  beforeAll(async () => {
+  let peopleId: any
+  beforeAll(async() => {
     connection = await DatabaseConnection.getInstance()
     await connection.query(createTable())
   })
 
-  it('Insert ON people_fake Table ', async () => {
+  it('Insert ON people_fake Table ', async() => {
     const result = await connection.insert({
       fields: [
         { name: 'name', value: 'Test Faker 2' },
@@ -40,8 +40,8 @@ describe('Table people_fake: database actions', () => {
     expect(result[0].id).toBeDefined()
   })
 
-  it('UPDATE ON people_fake Table ', async () => {
-   await connection.update({
+  it('UPDATE ON people_fake Table ', async() => {
+    await connection.update({
       fields: [
         { name: 'age', value: 20 },
       ],
@@ -54,7 +54,7 @@ describe('Table people_fake: database actions', () => {
   })
 
   
-  it('SELECT ON people_fake Table ', async () => {
+  it('SELECT ON people_fake Table ', async() => {
     const result = await connection.find({
       fields: [
         { name: 'id' },
@@ -75,7 +75,7 @@ describe('Table people_fake: database actions', () => {
     expect(result[0].age).toBe(20)
   })
 
-  it('DELETE ON people_fake Table ', async () => {
+  it('DELETE ON people_fake Table ', async() => {
     await connection.delete({
       table: `public.${table}`,
       where: [{
@@ -104,7 +104,7 @@ describe('Table people_fake: database actions', () => {
     
   })
 
-  afterAll(async () => {
+  afterAll(async() => {
     await connection.query(dropTable())
   })
 })

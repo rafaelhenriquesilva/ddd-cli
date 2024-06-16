@@ -70,7 +70,7 @@ export class PostgresQueryAdapter {
       query += `${field.name} = ${value},`
     }
 
-    query = query.slice(0, -1)
+    query = query.slice(-1) === ',' ? query.slice(0, -1) : query
 
     query += this.createWhereCondition(input.where)
 
@@ -102,10 +102,10 @@ export class PostgresQueryAdapter {
   
       for (const field of fields) {
         const value = this.formatQueryValue(field)
-        whereCondition += `${field.name} = ${value} AND`
+        whereCondition += `${field.name} = ${value} AND `
       }
   
-      whereCondition = whereCondition.slice(0, -3)
+      whereCondition = whereCondition.slice(-4) === 'AND ' ? whereCondition.slice(0, -4) : whereCondition
     }
     return whereCondition
   }

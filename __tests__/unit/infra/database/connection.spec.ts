@@ -2,7 +2,7 @@ import {DatabaseConnection} from '../../../../src/infra/database/database-connec
 
 describe('Connection test', () => {
   let connection: DatabaseConnection
-  beforeAll(async () => {
+  beforeAll(async() => {
     connection = await DatabaseConnection.getInstance()
   })
 
