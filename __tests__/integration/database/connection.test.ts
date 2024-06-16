@@ -1,4 +1,4 @@
-import {DatabaseConnection} from '../../../../src/infra/database/database-connection'
+import {DatabaseConnection} from '../../../src/infra/database/database-connection'
 
 describe('Connection test', () => {
   let connection: DatabaseConnection
