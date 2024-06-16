@@ -2,8 +2,8 @@ import {DatabaseConnection} from '../../../../src/infra/database/database-connec
 
 describe('Connection test', () => {
   let connection: DatabaseConnection
-  beforeAll(() => {
-    connection = DatabaseConnection.getInstance()
+  beforeAll(async () => {
+    connection = await DatabaseConnection.getInstance()
   })
 
   it('RUN QUERY IN DATABASE ', async() => {
@@ -14,5 +14,9 @@ describe('Connection test', () => {
 
   it('GET ERROR TO EXECUTE QUERY IN DATABASE ', async() => {
     expect(connection.query("SELECT 1 x 1 AS count")).rejects.toThrow()
+  })
+
+  afterAll(async () => {
+    await connection.end()
   })
 })

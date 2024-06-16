@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS people (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    birth_date DATE NOT NULL
+);

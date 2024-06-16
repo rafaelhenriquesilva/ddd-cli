@@ -22,7 +22,7 @@ export default class PostgresAdapter {
     this.pgp.pg.defaults.keepalives = 10
   }
 
-  async query(query: string, values?: any[]): Promise<any> {
+  async query(query: string, values?: any[]): Promise<any[]> {
     try {
       return await this.db.any(query, values)
     } catch (error: any) {
