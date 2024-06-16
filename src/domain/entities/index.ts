@@ -1,0 +1,1 @@
+export * from './people-template/people-template-entity'
