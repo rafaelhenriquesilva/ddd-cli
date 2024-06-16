@@ -8,7 +8,7 @@ export class PostgresQueryAdapter {
       query += `${field.name},`
     }
 
-    query = query.slice(0, -1)
+    query = this.removeWordOfString(query, ',', -1)
 
     query += ` FROM ${input.table} `
 
@@ -33,7 +33,7 @@ export class PostgresQueryAdapter {
       query += `${fieldName},`
     }
 
-    query = query.slice(0, -1)
+    query = this.removeWordOfString(query, ',', -1)
 
     query += `) VALUES (`
 
@@ -41,7 +41,7 @@ export class PostgresQueryAdapter {
       query += `${fieldValue},`
     }
 
-    query = query.slice(0, -1)
+    query = this.removeWordOfString(query, ',', -1)
 
     query += ') '
 
@@ -70,7 +70,7 @@ export class PostgresQueryAdapter {
       query += `${field.name} = ${value},`
     }
 
-    query = query.slice(-1) === ',' ? query.slice(0, -1) : query
+    query = this.removeWordOfString(query, ',', -1)
 
     query += this.createWhereCondition(input.where)
 
@@ -95,6 +95,10 @@ export class PostgresQueryAdapter {
     return value
   }
 
+  static removeWordOfString(query: string, word: string, spaces: number) {
+    return query.slice(spaces) === word ? query.slice(0, spaces) : query
+  }
+
   static createWhereCondition(fields?: QueryField[]): string {
     let whereCondition = ''
     if (fields && fields.length > 0) {
@@ -105,7 +109,7 @@ export class PostgresQueryAdapter {
         whereCondition += `${field.name} = ${value} AND `
       }
   
-      whereCondition = whereCondition.slice(-4) === 'AND ' ? whereCondition.slice(0, -4) : whereCondition
+      whereCondition = this.removeWordOfString(whereCondition, 'AND ', -4)
     }
     return whereCondition
   }
