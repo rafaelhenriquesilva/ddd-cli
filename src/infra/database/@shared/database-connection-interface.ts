@@ -6,6 +6,6 @@ export interface DatabaseConnectionInterface {
     insert(input: InsertQueryInterface) : Promise<any[]>
     update(input: UpdateQueryInterface) : Promise<any[]>
     delete(input: DeleteQueryInterface) : Promise<any[]>
-    start(): any
-    end(): Promise<void>
+    getConnection(): any
+    closeConnection(): Promise<void>
 }

@@ -106,6 +106,5 @@ describe('Table people_fake: database actions', () => {
 
   afterAll(async () => {
     await connection.query(dropTable())
-    await connection.end()
   })
 })

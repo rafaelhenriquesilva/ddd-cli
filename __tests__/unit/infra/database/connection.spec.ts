@@ -16,7 +16,4 @@ describe('Connection test', () => {
     expect(connection.query("SELECT 1 x 1 AS count")).rejects.toThrow()
   })
 
-  afterAll(async () => {
-    await connection.end()
-  })
 })
