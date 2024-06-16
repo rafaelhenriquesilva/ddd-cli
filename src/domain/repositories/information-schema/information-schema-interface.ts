@@ -1,4 +1,4 @@
-import { InformationSchemaTableColumnDTO, InformationSchemaTableDTO } from "../../../../domain/dto"
+import { InformationSchemaTableColumnDTO, InformationSchemaTableDTO } from "../../dto"
 
 export interface InformationSchemaRepositoryInterface {
     findTablesBySchemaName(schemaName: string) : Promise<InformationSchemaTableDTO[]>

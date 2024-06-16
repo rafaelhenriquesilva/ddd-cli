@@ -1,5 +1,5 @@
 import { InformationSchemaTableDTO, InformationSchemaTableColumnDTO } from '../../../domain/dto'
-import {InformationSchemaRepositoryInterface} from '../@shared'
+import {InformationSchemaRepositoryInterface} from '../../../domain/repositories'
 import {DatabaseConnection} from '../../database/database-connection'
 
 export class InformationSchemaRepository implements InformationSchemaRepositoryInterface {
