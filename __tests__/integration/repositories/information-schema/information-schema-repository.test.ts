@@ -1,5 +1,5 @@
-import { DatabaseConnection } from '../../../src/infra/database/database-connection'
-import {InformationSchemaRepository} from '../../../src/infra/repositories'
+import { DatabaseConnection } from '../../../../src/infra/database/database-connection'
+import {InformationSchemaRepository} from '../../../../src/infra/repositories'
 const table = `table_fake`
 
 const createTable = () => {

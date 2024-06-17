@@ -4,7 +4,7 @@ export class PeopleTemplateEntity {
     private readonly _id: number
     private _name: string
     private _age: number
-    private _birthDate: Date
+    private _birthDate: Date | string
     private readonly _createdAt: Date
     private readonly _updatedAt: Date
     
@@ -24,23 +24,23 @@ export class PeopleTemplateEntity {
     public get name(): string {
         return this._name
     }
-    
+
     public set name(value: string) {
         this._name = value
     }
-    
+
     public get age(): number {
         return this._age
     }
-    
+
     public set age(value: number) {
         this._age = value
     }
-    
-    public get birthDate(): Date {
+
+    public get birthDate(): Date | string {
         return this._birthDate
     }
-    
+
     public set birthDate(value: Date) {
         this._birthDate = value
     }
