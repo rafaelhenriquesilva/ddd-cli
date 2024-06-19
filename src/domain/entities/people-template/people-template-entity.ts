@@ -15,6 +15,15 @@ export class PeopleTemplateEntity {
         this._birthDate = dto.birthDate
         this._createdAt = dto.createdAt
         this._updatedAt = dto.updatedAt
+
+        this.validateDate(this._birthDate)
+    }
+
+    validateDate(inputBirthDate: string | Date): void {
+        // Verificação adicional para garantir que a data é válida
+    if (typeof inputBirthDate === 'string' && isNaN(new Date(inputBirthDate).getTime())) {
+        throw new Error(`Invalid date format: ${inputBirthDate}`);
+    }
     }
 
     public get id(): number {
