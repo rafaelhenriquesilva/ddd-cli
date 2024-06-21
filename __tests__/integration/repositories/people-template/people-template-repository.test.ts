@@ -1,17 +1,17 @@
-import { PeopleTemplateEntity } from '../../../../src/domain/entities';
+import { PeopleTemplateEntity } from '../../../../src/domain/entities'
 import { PeopleTemplateRepository } from '../../../../src/infra/repositories'
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'
 
 const createEntity = () => {
-    const age = 27
-    return new PeopleTemplateEntity({
-        age,
-        name: 'user_fake',
-        birthDate: '1997-02-28',
-        id: faker.number.int(),
-        createdAt: new Date(),
-        updatedAt: new Date()
-    }) 
+  const age = 27
+  return new PeopleTemplateEntity({
+    age,
+    name: 'user_fake',
+    birthDate: '1997-02-28',
+    id: faker.number.int(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }) 
 }
 
 describe('PeopleTemplateRepository Actions', () => {
