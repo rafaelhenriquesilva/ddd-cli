@@ -26,8 +26,6 @@ describe('table fake: database actions', () => {
     repository = new InformationSchemaRepository()
   })
 
-
-  
   it('SELECT Table name On Schema ', async() => {
     const result = await repository.findTablesBySchemaName(schemaName)
    
