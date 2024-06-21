@@ -1,6 +1,7 @@
 import fs from'fs'
 import path from 'path'
 import { InformationSchemaRepository } from '../../../src/infra/repositories'
+import { StringUtil } from '../../../src/infra/util/string-util'
 import { InformationSchemaTableColumnDTO } from '../../../src/domain/dto'
 
 const pathFile = __dirname + './../../../'
@@ -23,12 +24,6 @@ const generateFile = (folderName: string, filename: string, dto_template: string
   })
 }
 
-const createDTOTemplate  = (className: string, fields: string) : string => {
-  return `
-export interface ${className}DTO 
-${fields}
-`
-}
 
 const createDTOTemplateByColumns  = (className: string, columns: InformationSchemaTableColumnDTO[]): string => {
   let template = `
@@ -36,8 +31,8 @@ export interface ${className}DTO
 {
 `
   for (const column of columns) {
-    const camelCaseColumnName = toCamelCase(column.columnName)
-    const dataTypeTS = getTsType(column.dataType)
+    const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
+    const dataTypeTS = StringUtil.getTsType(column.dataType)
 
     template += `${camelCaseColumnName}: ${dataTypeTS} \n`
   }
@@ -46,106 +41,18 @@ export interface ${className}DTO
   return template
 }
 
-
-
-
-const capitalizeFirstLetter = (str: string): string => {
-  if (!str) return str // Verifica se a string não está vazia
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
-
-const pgToTsTypeMap: { [key: string]: string } = {
-  'smallint': 'number',
-  'integer': 'number',
-  'bigint': 'number',
-  'decimal': 'number',
-  'numeric': 'number',
-  'real': 'number',
-  'double precision': 'number',
-  'smallserial': 'number',
-  'serial': 'number',
-  'bigserial': 'number',
-  'money': 'string',
-  'character': 'string',
-  'character varying': 'string',
-  'text': 'string',
-  'bytea': 'Buffer',
-  'date': 'string',
-  'time without time zone': 'string',
-  'time with time zone': 'string',
-  'timestamp without time zone': 'string',
-  'timestamp with time zone': 'string',
-  'interval': 'string',
-  'boolean': 'boolean',
-  'uuid': 'string',
-  'json': 'any',
-  'jsonb': 'any',
-  'xml': 'string',
-  'point': 'string',
-  'line': 'string',
-  'lseg': 'string',
-  'box': 'string',
-  'path': 'string',
-  'polygon': 'string',
-  'circle': 'string',
-  'cidr': 'string',
-  'inet': 'string',
-  'macaddr': 'string',
-  'bit': 'string',
-  'bit varying': 'string',
-  'tsquery': 'string',
-  'tsvector': 'string',
-  'int4range': 'string',
-  'int8range': 'string',
-  'numrange': 'string',
-  'tsrange': 'string',
-  'tstzrange': 'string',
-  'daterange': 'string'
-}
-
-const toCamelCase = (str: string): string => {
-  return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase())
-}
-
-const getTsType = (pgType: string): string => {
-  return pgToTsTypeMap[pgType] || 'any'
-}
-
-const convertColumnsToTsTypes = (columns: InformationSchemaTableColumnDTO[]): { [key: string]: string } => {
-  const tsTypes: { [key: string]: string } = {}
-  columns.forEach(column => {
-    const camelCaseColumnName = toCamelCase(column.columnName)
-    tsTypes[camelCaseColumnName] = getTsType(column.dataType)
-  })
-  return tsTypes
-}
-
-const removeQuotesAndCommas = (obj: { [key: string]: string }): string => {
-  let str = JSON.stringify(obj, null, 2) // Converte o objeto em string formatada
-  str = str.replace(/['",]/g, '') // Remove todos os apóstrofos e vírgulas
-  return str
-}
-
-
-const createDTOFile = async(folder:string, className: string, DTOTemplate: string) => {
+const createDTOFile = async(folder:string, detail: TableDetail) => {
   await generateFolder(folder)
-  await generateFile(folder, `${className}DTO.ts`, DTOTemplate)
+  await generateFile(folder, `${detail.className}DTO.ts`, detail.DTOTemplate)
 }
 
-// const stringToObjArray = (str: string): { columnName: string, type: string }[] => {
-//   // Remove the curly braces and trim the string
-//   str = str.replace(/[{}]/g, '').trim()
-    
-//   // Split the string by newline characters
-//   const lines = str.split('\n').map(line => line.trim()).filter(line => line)
-    
-//   const objArray = lines.map(line => {
-//     const [columnName, type] = line.split(':').map(part => part.trim())
-//     return { columnName, type }
-//   })
-
-//   return objArray
-// }
+export interface TableDetail {
+    tableName: string
+    columns: InformationSchemaTableColumnDTO[]
+    tsTypes: string
+    className: string
+    DTOTemplate: string
+}
 
 describe('Generate a file', () => {
   let repository: InformationSchemaRepository
@@ -156,15 +63,22 @@ describe('Generate a file', () => {
   it('Call Information Schema And create file by schema', async() => {
     const tableName = 'all_data_types'
     const columns: InformationSchemaTableColumnDTO[] = await repository.findColumnsByNames(tableName, schemaName)
-    const tsTypes = removeQuotesAndCommas(convertColumnsToTsTypes(columns))
+    const className = StringUtil.capitalizeFirstLetter(
+        StringUtil.toCamelCase(tableName)
+    )
+    const tableDetail: TableDetail = {
+        tableName,
+        columns,
+        className,
+        tsTypes: StringUtil.removeQuotesAndCommas(
+            StringUtil.convertColumnsToTsTypes(columns)
+        ),
+        DTOTemplate: createDTOTemplateByColumns(className, columns)
+    }
+
     //const listFields = stringToObjArray(tsTypes)
-    const className = capitalizeFirstLetter(toCamelCase(tableName))
-    const DTOTemplate = createDTOTemplate(className, tsTypes)
-    const DTOTemplateNew = createDTOTemplateByColumns(className, columns)
         
-    console.info(columns)
-    await createDTOFile('dto', className, DTOTemplate)
-    await createDTOFile('dto', `${className}New`, DTOTemplateNew)
+    await createDTOFile('dto', tableDetail)
 
     expect(true).toBe(true)
   })
