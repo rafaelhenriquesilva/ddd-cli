@@ -1,7 +1,7 @@
 
-export interface AllDataTypesDTO 
-{
-id: number 
+      export interface AllDataTypesDTO 
+      {
+      id: number 
 smallIntCol: number 
 integerCol: number 
 bigIntCol: number 
