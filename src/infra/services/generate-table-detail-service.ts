@@ -1,3 +1,4 @@
+import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto";
 import { InformationSchemaTableColumnDTO } from "../../domain/dto";
 import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto";
 import { InformationSchemaRepository } from "../repositories";
@@ -11,8 +12,9 @@ export class GenerateTableDetailService {
         this._informationSchemaRepository = informationSchemaRepository
     }
 
+    // TODO criar Postgres Table Adapter
     async createTableDetailBySchemaDetail(schemaName:string, tableName: string): Promise<TableDetailDTO> {
-        const columns: InformationSchemaTableColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
+        const columns: PostgresColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
         const className = StringUtil.capitalizeFirstLetter(
             StringUtil.toCamelCase(tableName)
         )
@@ -21,7 +23,7 @@ export class GenerateTableDetailService {
             columns,
             className,
             tsTypes: StringUtil.removeQuotesAndCommas(
-                StringUtil.convertColumnsToTsTypes(columns)
+                StringUtil.convertPostgresColumnsToTsTypes(columns)
             ),
             DTOTemplate: this.createDTOTemplateByColumns(className, columns)
         }
@@ -30,7 +32,7 @@ export class GenerateTableDetailService {
     }
 
     // TODO criar DTO Template
-    private createDTOTemplateByColumns(className: string, columns: InformationSchemaTableColumnDTO[]): string {
+    private createDTOTemplateByColumns(className: string, columns: PostgresColumnDTO[]): string {
         let template = `
       export interface ${className}DTO 
       {

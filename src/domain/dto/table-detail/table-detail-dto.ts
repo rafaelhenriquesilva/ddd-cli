@@ -1,8 +1,8 @@
-import { InformationSchemaTableColumnDTO } from "../information-schema/information-schema-dto"
+import { PostgresColumnDTO } from "../../@shared/dto/postgres-column-dto"
 
 export interface TableDetailDTO {
     tableName: string
-    columns: InformationSchemaTableColumnDTO[]
+    columns: PostgresColumnDTO[]
     tsTypes: string
     className: string
     DTOTemplate: string

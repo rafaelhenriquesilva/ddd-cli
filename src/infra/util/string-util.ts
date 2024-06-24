@@ -16,7 +16,7 @@ export class StringUtil {
         return str
     }
 
-    static convertColumnsToTsTypes = (columns: InformationSchemaTableColumnDTO[]): { [key: string]: string } => {
+    static convertPostgresColumnsToTsTypes = (columns: InformationSchemaTableColumnDTO[]): { [key: string]: string } => {
         const tsTypes: { [key: string]: string } = {}
         columns.forEach(column => {
             const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
