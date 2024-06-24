@@ -3,4 +3,6 @@ export interface PostgresColumnDTO {
     dataType: string
     isNullable: string
     columnDefault: string
+    camelCaseColumnName:string
+    dataTypeTS: string
 }

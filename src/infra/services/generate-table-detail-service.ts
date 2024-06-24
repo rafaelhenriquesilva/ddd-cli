@@ -1,4 +1,5 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
+import { InformationSchemaTableColumnDTO } from "../../domain/dto"
 import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
 import { InformationSchemaRepository } from "../repositories"
 import { StringUtil } from "../util/string-util"
@@ -13,19 +14,32 @@ export class GenerateTableDetailService {
 
   // TODO criar Postgres Table Adapter
   async createTableDetailBySchemaDetail(schemaName: string, tableName: string): Promise<TableDetailDTO> {
-    const columns: PostgresColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
+    const columns: InformationSchemaTableColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
+    const postgresColumns: PostgresColumnDTO[] = []
+
+    for (const column of columns) {
+      postgresColumns.push({
+        camelCaseColumnName: StringUtil.toCamelCase(column.columnName),
+        columnDefault: column.columnDefault,
+        columnName: column.columnName,
+        dataType: column.dataType,
+        isNullable: column.isNullable,
+        dataTypeTS: StringUtil.getTsType(column.dataType)
+      })
+    }
+
     const className = StringUtil.capitalizeFirstLetter(
       StringUtil.toCamelCase(tableName)
     )
     const tableDetail: TableDetailDTO = {
       tableName,
-      columns,
+      columns: postgresColumns,
       className,
       tsTypes: StringUtil.removeQuotesAndCommas(
         StringUtil.convertPostgresColumnsToTsTypes(columns)
       ),
-      DTOTemplate: this.createDTOTemplateByColumns(className, columns),
-      EntityTemplate: this.createEntityTemplateByColumns(className, columns)
+      DTOTemplate: this.createDTOTemplateByColumns(className, postgresColumns),
+      EntityTemplate: this.createEntityTemplateByColumns(className, postgresColumns)
     }
 
     return tableDetail
@@ -38,10 +52,8 @@ export class GenerateTableDetailService {
       {
       `
     for (const column of columns) {
-      const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
-      const dataTypeTS = StringUtil.getTsType(column.dataType)
 
-      template += `${camelCaseColumnName}: ${dataTypeTS} \n`
+      template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
     }
 
     template += '}'
@@ -57,28 +69,23 @@ export class GenerateTableDetailService {
       
       `
     for (const column of columns) {
-      const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
-      const dataTypeTS = StringUtil.getTsType(column.dataType)
 
-      template += `private readonly _${camelCaseColumnName}: ${dataTypeTS} \n`
+      template += `private readonly _${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
     }
 
     template += `\n constructor(dto: ${className}DTO) {`
     for (const column of columns) {
-      const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
 
-      template += `this._${camelCaseColumnName} = dto.${camelCaseColumnName} \n`
+      template += `this._${column.camelCaseColumnName} = dto.${column.camelCaseColumnName} \n`
     }
     template += `}\n`
 
 
     for (const column of columns) {
-      const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
-      const dataTypeTS = StringUtil.getTsType(column.dataType)
 
       template += `
-             public get ${camelCaseColumnName}(): ${dataTypeTS} {
-                    return this._${camelCaseColumnName}
+             public get ${column.camelCaseColumnName}(): ${column.dataTypeTS} {
+                    return this._${column.camelCaseColumnName}
             } \n`
     }
     // public set ${camelCaseColumnName}(value: ${dataTypeTS}) {
@@ -88,9 +95,8 @@ export class GenerateTableDetailService {
     template += `toJson(): ${className}DTO {\n`
     template += `return {\n`
     for (const column of columns) {
-      const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
 
-      template += `${camelCaseColumnName}: this.${camelCaseColumnName}, \n`
+      template += `${column.camelCaseColumnName}: this.${column.camelCaseColumnName}, \n`
     }
     template += `}\n`
     template += `}\n`
