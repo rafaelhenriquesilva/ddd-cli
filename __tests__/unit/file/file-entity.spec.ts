@@ -6,7 +6,7 @@ import { FileUtil } from '../../../src/infra/util/file-util'
 const pathFile = __dirname + './../../../'
 
 const createEntityFile = async(folder:string, detail: TableDetailDTO) => {
-  const fileUtil = new FileUtil(pathFile);
+  const fileUtil = new FileUtil(pathFile)
   await fileUtil.generateFolder(folder)
   await fileUtil.generateFile(folder, `${detail.className}Entity.ts`, detail.EntityTemplate)
 }

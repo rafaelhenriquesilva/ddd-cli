@@ -1,4 +1,4 @@
-import { PostgresColumnDTO } from "../../@shared/dto/postgres-column-dto";
+import { PostgresColumnDTO } from "../../@shared/dto/postgres-column-dto"
 
 export interface InformationSchemaTableDTO {
     tableName: string
