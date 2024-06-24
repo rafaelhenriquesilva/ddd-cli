@@ -5,13 +5,13 @@ import { GenerateTableDetailService } from '../../../src/infra/services/generate
 import { FileUtil } from '../../../src/infra/util/file-util'
 const pathFile = __dirname + './../../../'
 
-const createDTOFile = async(folder:string, detail: TableDetailDTO) => {
+const createEntityFile = async(folder:string, detail: TableDetailDTO) => {
   const fileUtil = new FileUtil(pathFile);
   await fileUtil.generateFolder(folder)
-  await fileUtil.generateFile(folder, `${detail.className}DTO.ts`, detail.DTOTemplate)
+  await fileUtil.generateFile(folder, `${detail.className}Entity.ts`, detail.EntityTemplate)
 }
 
-describe('Generate a file DTO', () => {
+describe('Generate a file Entity', () => {
   let repository: InformationSchemaRepository
   let service: GenerateTableDetailService
   const schemaName: string = 'public'
@@ -23,7 +23,7 @@ describe('Generate a file DTO', () => {
     const tableName = 'all_data_types'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
         
-    await createDTOFile('dto', tableDetail)
+    await createEntityFile('entity', tableDetail)
 
     expect(true).toBe(true)
   })

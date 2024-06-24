@@ -1,5 +1,4 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto";
-import { InformationSchemaTableColumnDTO } from "../../domain/dto";
 import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto";
 import { InformationSchemaRepository } from "../repositories";
 import { StringUtil } from "../util/string-util";
@@ -13,7 +12,7 @@ export class GenerateTableDetailService {
     }
 
     // TODO criar Postgres Table Adapter
-    async createTableDetailBySchemaDetail(schemaName:string, tableName: string): Promise<TableDetailDTO> {
+    async createTableDetailBySchemaDetail(schemaName: string, tableName: string): Promise<TableDetailDTO> {
         const columns: PostgresColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
         const className = StringUtil.capitalizeFirstLetter(
             StringUtil.toCamelCase(tableName)
@@ -25,7 +24,8 @@ export class GenerateTableDetailService {
             tsTypes: StringUtil.removeQuotesAndCommas(
                 StringUtil.convertPostgresColumnsToTsTypes(columns)
             ),
-            DTOTemplate: this.createDTOTemplateByColumns(className, columns)
+            DTOTemplate: this.createDTOTemplateByColumns(className, columns),
+            EntityTemplate: this.createEntityTemplateByColumns(className, columns)
         }
 
         return tableDetail
@@ -43,6 +43,57 @@ export class GenerateTableDetailService {
 
             template += `${camelCaseColumnName}: ${dataTypeTS} \n`
         }
+
+        template += '}'
+        return template
+    }
+
+    // TODO criar Entity Template
+    private createEntityTemplateByColumns(className: string, columns: PostgresColumnDTO[]): string {
+        let template = `
+      import { ${className}DTO } from '../dto/${className}DTO'
+        export class ${className}Entity 
+      {
+      
+      `
+        for (const column of columns) {
+            const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
+            const dataTypeTS = StringUtil.getTsType(column.dataType)
+
+            template += `private readonly _${camelCaseColumnName}: ${dataTypeTS} \n`
+        }
+
+        template += `\n constructor(dto: ${className}DTO) {`
+        for (const column of columns) {
+            const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
+
+            template += `this._${camelCaseColumnName} = dto.${camelCaseColumnName} \n`
+        }
+        template += `}\n`
+
+
+        for (const column of columns) {
+            const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
+            const dataTypeTS = StringUtil.getTsType(column.dataType)
+
+            template += `
+             public get ${camelCaseColumnName}(): ${dataTypeTS} {
+                    return this._${camelCaseColumnName}
+            } \n`
+        }
+        // public set ${camelCaseColumnName}(value: ${dataTypeTS}) {
+        //     this._${camelCaseColumnName} = value
+        // }\n
+
+        template += `toJson(): ${className}DTO {\n`
+        template += `return {\n`
+        for (const column of columns) {
+            const camelCaseColumnName = StringUtil.toCamelCase(column.columnName)
+
+            template += `${camelCaseColumnName}: this.${camelCaseColumnName}, \n`
+        }
+        template += `}\n`
+        template += `}\n`
 
         template += '}'
         return template
