@@ -1,9 +1,9 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 
 export class RepositoryTemplate {
-    static render(className: string, columns: PostgresColumnDTO[]): string {
-        const variableMapperName = 'row';
-        let template = `
+  static render(className: string, columns: PostgresColumnDTO[]): string {
+    const variableMapperName = 'row'
+    let template = `
         import { ${className}Entity } from "../entities/${className}Entity"
         import { DatabaseConnection } from "../src/infra/database/database-connection"
         export class ${className}Repository {
@@ -30,11 +30,11 @@ export class RepositoryTemplate {
             private mapRowToEntity(${variableMapperName}: any) {
                 return new ${className}Entity({\n
           `
-        for (const column of columns) {
-            template += `${column.camelCaseColumnName}: ${variableMapperName}.${column.columnName}, \n`
-        }
+    for (const column of columns) {
+      template += `${column.camelCaseColumnName}: ${variableMapperName}.${column.columnName}, \n`
+    }
 
-        template += `  
+    template += `  
           })
         }
           
@@ -63,12 +63,12 @@ export class RepositoryTemplate {
                     return SchemaModel.map((row: any) => this.mapRowToEntity(row))
 
              }\n`
-        // for (const column of columns) {
+    // for (const column of columns) {
 
-        //   template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
-        // }
+    //   template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
+    // }
 
-        template += '}'
-        return template
-    }
+    template += '}'
+    return template
+  }
 }
