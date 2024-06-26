@@ -20,7 +20,7 @@ export class GenerateTableDetailService {
   async createTableDetailBySchemaDetail(schemaName: string, tableName: string): Promise<TableDetailDTO> {
     const columns: InformationSchemaTableColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
     const postgresColumns: PostgresColumnDTO[] = []
-
+    
     for (const column of columns) {
       postgresColumns.push({
         camelCaseColumnName: StringUtil.toCamelCase(column.columnName),

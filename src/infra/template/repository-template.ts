@@ -3,6 +3,14 @@ import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 export class RepositoryTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const variableMapperName = 'row'
+    const fieldsToInsertOrUpdate =
+            columns.filter(
+              (data) => data.camelCaseColumnName !== "id" &&
+                    data.camelCaseColumnName !== "createdAt" &&
+                    data.camelCaseColumnName !== "updatedAt"
+            )
+
+
     let template = `
         import { ${className}Entity } from "../entities/${className}Entity"
         import { DatabaseConnection } from "../../src/infra/database/database-connection"
@@ -62,7 +70,38 @@ export class RepositoryTemplate {
 
                     return SchemaModel.map((row: any) => this.mapRowToEntity(row))
 
-             }\n`
+             }
+                    
+            async insert(input: Partial<${className}Entity>):Promise<Partial<${className}Entity[]>> {
+                    return await this.connection.insert({
+                        fields:\n[`
+
+    for (const column of fieldsToInsertOrUpdate) {
+      template += `{name: '${column.columnName}', value: input.${column.camelCaseColumnName} }, \n`
+    }
+
+    template += ` ], table: this.tableName,
+                        retuning: {
+                            name: 'id'
+                        }
+                    })
+            }
+                    
+            
+            async update(input: Partial<${className}Entity>): Promise<void> {
+                await this.connection.update({
+                    fields: \n[`
+    for (const column of fieldsToInsertOrUpdate) {
+      template += `{name: '${column.columnName}', value: input.${column.camelCaseColumnName} }, \n`
+    }
+
+    template += `], table: this.tableName,
+                    where: [{
+                        name: 'id',
+                        value: input.id
+                    }]
+                })
+            }`
     // for (const column of columns) {
 
     //   template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`

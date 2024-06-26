@@ -26,7 +26,7 @@ describe('Generate a file Entity Class Test', () => {
     await createFolderNewCode()
   })
   it('Call Information Schema And create file by schema', async() => {
-    const tableName = 'all_data_types'
+    const tableName = 'people'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
         
     await createEntityTestFile('test', tableDetail)
