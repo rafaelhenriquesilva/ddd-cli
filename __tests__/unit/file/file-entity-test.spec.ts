@@ -5,7 +5,7 @@ import { GenerateTableDetailService } from '../../../src/infra/services/generate
 import { FileUtil } from '../../../src/infra/util/file-util'
 const pathFile = __dirname + './../../../'
 
-const createEntityFile = async(folder:string, detail: TableDetailDTO) => {
+const createEntityTestFile = async(folder:string, detail: TableDetailDTO) => {
   const fileUtil = new FileUtil(pathFile)
   await fileUtil.generateFolder(folder)
   await fileUtil.generateFile(folder, `${detail.className}Entity.spec.ts`, detail.EntityTestTemplate)
@@ -23,7 +23,7 @@ describe('Generate a file Entity Class Test', () => {
     const tableName = 'all_data_types'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
         
-    await createEntityFile('test', tableDetail)
+    await createEntityTestFile('test', tableDetail)
 
     expect(true).toBe(true)
   })

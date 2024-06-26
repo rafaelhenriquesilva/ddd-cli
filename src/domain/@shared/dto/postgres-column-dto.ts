@@ -5,4 +5,6 @@ export interface PostgresColumnDTO {
     columnDefault: string
     camelCaseColumnName:string
     dataTypeTS: string
+    schema: string
+    table: string
 }

@@ -8,4 +8,5 @@ export interface TableDetailDTO {
     DTOTemplate: string
     EntityTemplate: string
     EntityTestTemplate: string
+    RepositoryTemplate: string
 }
