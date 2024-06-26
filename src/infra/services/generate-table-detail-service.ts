@@ -4,6 +4,7 @@ import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
 import { InformationSchemaRepository } from "../repositories"
 import { DTOTemplate } from "../template/dto-template"
 import { EntityTemplate } from "../template/entity-template"
+import { EntityTestTemplate } from "../template/entity-test-template"
 import { StringUtil } from "../util/string-util"
 
 export class GenerateTableDetailService {
@@ -41,7 +42,8 @@ export class GenerateTableDetailService {
         StringUtil.convertPostgresColumnsToTsTypes(columns)
       ),
       DTOTemplate: DTOTemplate.render(className, postgresColumns),
-      EntityTemplate: EntityTemplate.render(className, postgresColumns)
+      EntityTemplate: EntityTemplate.render(className, postgresColumns),
+      EntityTestTemplate: EntityTestTemplate.render(className, postgresColumns)
     }
 
     return tableDetail
