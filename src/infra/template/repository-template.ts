@@ -3,6 +3,8 @@ import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 export class RepositoryTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const variableMapperName = 'row'
+    const variableToAction = 'input'
+    
     const fieldsToInsertOrUpdate = (): string => {
       const fields = columns.filter(
         (data) => data.camelCaseColumnName !== "id" &&
@@ -13,7 +15,7 @@ export class RepositoryTemplate {
       let template = ''
 
       for (const column of fields) {
-        template += `{name: '${column.columnName}', value: input.${column.camelCaseColumnName} }, \n`
+        template += `{name: '${column.columnName}', value: ${variableToAction}.${column.camelCaseColumnName} }, \n`
       }
 
       return template
@@ -81,7 +83,7 @@ export class RepositoryTemplate {
 
              }
                     
-            async insert(input: Partial<${className}Entity>):Promise<Partial<${className}Entity[]>> {
+            async insert(${variableToAction}: Partial<${className}Entity>):Promise<Partial<${className}Entity[]>> {
                     return await this.connection.insert({
                         fields:\n[`
 
@@ -95,7 +97,7 @@ export class RepositoryTemplate {
             }
                     
             
-            async update(input: Partial<${className}Entity>): Promise<void> {
+            async update(${variableToAction}: Partial<${className}Entity>): Promise<void> {
                 await this.connection.update({
                     fields: \n[`
     template += fieldsToInsertOrUpdate()
@@ -103,7 +105,7 @@ export class RepositoryTemplate {
     template += `], table: this.tableName,
                     where: [{
                         name: 'id',
-                        value: input.id
+                        value: ${variableToAction}.id
                     }]
                 })
             }`
