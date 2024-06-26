@@ -5,7 +5,7 @@ export class RepositoryTemplate {
     const variableMapperName = 'row'
     let template = `
         import { ${className}Entity } from "../entities/${className}Entity"
-        import { DatabaseConnection } from "../src/infra/database/database-connection"
+        import { DatabaseConnection } from "../../src/infra/database/database-connection"
         export class ${className}Repository {
             connection: DatabaseConnection
             tableName: string
