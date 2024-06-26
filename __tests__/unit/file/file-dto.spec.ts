@@ -10,13 +10,14 @@ const createFolderNewCode = async() => {
   await fileUtil.generateFolder('new_code')
 }
 
-const createDTOFile = async(folder:string, detail: TableDetailDTO) => {
+const createFile = async(folder:string, detail: TableDetailDTO, complement:string, 
+  templateName: 'DTOTemplate' | 'EntityTestTemplate' | 'RepositoryTemplate' | 'EntityTemplate') => {
   const fileUtil = new FileUtil(pathFile)
   await fileUtil.generateFolder(folder)
-  await fileUtil.generateFile(folder, `${detail.className}DTO.ts`, detail.DTOTemplate)
+  await fileUtil.generateFile(folder, `${detail.className}${complement}`, detail[templateName])
 }
 
-describe('Generate a file DTO', () => {
+describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
   let repository: InformationSchemaRepository
   let service: GenerateTableDetailService
   const schemaName: string = 'public'
@@ -29,7 +30,10 @@ describe('Generate a file DTO', () => {
     const tableName = 'people'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
         
-    await createDTOFile('dto', tableDetail)
+    await createFile('dto', tableDetail, 'DTO.ts', 'DTOTemplate')
+    await createFile('entities', tableDetail, 'Entity.ts', 'EntityTemplate')
+    await createFile('test', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
+    await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
 
     expect(true).toBe(true)
   })
