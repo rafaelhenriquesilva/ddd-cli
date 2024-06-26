@@ -12,9 +12,10 @@ export class FileUtil {
     const dir = path.join(this._pathfile,  folderName)
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir)
-      console.log(`Folder '${folderName}' created.`)
-    } else {
-      console.log(`Folder '${folderName}' already exists.`)
+      console.info(`Folder '${folderName}' created.`)
+    } 
+    else {
+      console.info(`Folder '${folderName}' already exists.`)
     }
   }
       
