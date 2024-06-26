@@ -30,7 +30,7 @@ export class GenerateTableDetailService {
         dataTypeTS: StringUtil.getTsType(column.dataType)
       })
     }
-
+    console.info(postgresColumns)
     const className = StringUtil.capitalizeFirstLetter(
       StringUtil.toCamelCase(tableName)
     )

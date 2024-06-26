@@ -42,7 +42,7 @@ export class StringUtil {
     'character varying': 'string',
     'text': 'string',
     'bytea': 'Buffer',
-    'date': 'string',
+    'date': 'Date',
     'time without time zone': 'string',
     'time with time zone': 'string',
     'timestamp without time zone': 'string',

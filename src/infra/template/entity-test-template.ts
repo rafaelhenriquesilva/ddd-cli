@@ -40,7 +40,7 @@ export class EntityTestTemplate {
       'string': 'faker.string.sample()',
       'Buffer': 'new Buffer(faker.string.sample())',
       'any': '{}',
-      'date': 'new Date()',
+      'Date': 'new Date()',
       'boolean': 'false'
     }
 
