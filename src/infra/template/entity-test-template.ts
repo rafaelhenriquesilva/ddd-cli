@@ -1,18 +1,18 @@
-import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto";
+import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 
 export class EntityTestTemplate {
-   static render(className: string, columns: PostgresColumnDTO[]): string {
-      let template = `
+  static render(className: string, columns: PostgresColumnDTO[]): string {
+    let template = `
          import { faker } from '@faker-js/faker' \n
          import { ${className}Entity } from '../entity/${className}Entity'\n
          const createEntity = () => {
-            return new ${className}Entity({`;
+            return new ${className}Entity({`
 
-      for (const column of columns) {
-         template += `${column.camelCaseColumnName}: ${this.getMockByTsType(column.dataTypeTS)}, \n`
-      }
+    for (const column of columns) {
+      template += `${column.camelCaseColumnName}: ${this.getMockByTsType(column.dataTypeTS)}, \n`
+    }
 
-      template += ` }) 
+    template += ` }) 
             }
          
             
@@ -21,30 +21,30 @@ export class EntityTestTemplate {
                   const entity = createEntity()
                   expect(entity.toJson()).toEqual({\n`
 
-      for (const column of columns) {
-         template += `${column.camelCaseColumnName}: entity.${column.camelCaseColumnName}, \n`
-      }
+    for (const column of columns) {
+      template += `${column.camelCaseColumnName}: entity.${column.camelCaseColumnName}, \n`
+    }
       
-      template += `})
+    template += `})
                })
             })`
 
 
 
-      return template
-   }
+    return template
+  }
 
-   static getMockByTsType(type: string): string {
-      const MockByTsType: any = {
-         'number': 'faker.number.float()',
-         'string': 'faker.string.sample()',
-         'Buffer': 'new Buffer(faker.string.sample())',
-         'any': '{}',
-         'date': 'new Date()',
-         'boolean': 'false'
-      }
+  static getMockByTsType(type: string): string {
+    const MockByTsType: any = {
+      'number': 'faker.number.float()',
+      'string': 'faker.string.sample()',
+      'Buffer': 'new Buffer(faker.string.sample())',
+      'any': '{}',
+      'date': 'new Date()',
+      'boolean': 'false'
+    }
 
-      return MockByTsType[type] || '{}'
-   }
+    return MockByTsType[type] || '{}'
+  }
 
 }
