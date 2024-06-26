@@ -3,12 +3,21 @@ import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 export class RepositoryTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const variableMapperName = 'row'
-    const fieldsToInsertOrUpdate =
-            columns.filter(
-              (data) => data.camelCaseColumnName !== "id" &&
+    const fieldsToInsertOrUpdate = (): string => {
+      const fields = columns.filter(
+        (data) => data.camelCaseColumnName !== "id" &&
                     data.camelCaseColumnName !== "createdAt" &&
                     data.camelCaseColumnName !== "updatedAt"
-            )
+      )
+
+      let template = ''
+
+      for (const column of fields) {
+        template += `{name: '${column.columnName}', value: input.${column.camelCaseColumnName} }, \n`
+      }
+
+      return template
+    }
 
 
     let template = `
@@ -76,9 +85,7 @@ export class RepositoryTemplate {
                     return await this.connection.insert({
                         fields:\n[`
 
-    for (const column of fieldsToInsertOrUpdate) {
-      template += `{name: '${column.columnName}', value: input.${column.camelCaseColumnName} }, \n`
-    }
+    template += fieldsToInsertOrUpdate()
 
     template += ` ], table: this.tableName,
                         retuning: {
@@ -91,9 +98,7 @@ export class RepositoryTemplate {
             async update(input: Partial<${className}Entity>): Promise<void> {
                 await this.connection.update({
                     fields: \n[`
-    for (const column of fieldsToInsertOrUpdate) {
-      template += `{name: '${column.columnName}', value: input.${column.camelCaseColumnName} }, \n`
-    }
+    template += fieldsToInsertOrUpdate()
 
     template += `], table: this.tableName,
                     where: [{
@@ -102,10 +107,6 @@ export class RepositoryTemplate {
                     }]
                 })
             }`
-    // for (const column of columns) {
-
-    //   template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
-    // }
 
     template += '}'
     return template
