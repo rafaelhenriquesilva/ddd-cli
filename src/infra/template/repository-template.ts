@@ -2,9 +2,10 @@ import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 
 export class RepositoryTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
+    let id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
     const variableMapperName = 'row'
     const variableToAction = 'input'
-    
+    // TODO - isolate to use in others files
     const fieldsToInsertOrUpdate = (): string => {
       const fields = columns.filter(
         (data) => data.camelCaseColumnName !== "id" &&
@@ -57,7 +58,7 @@ export class RepositoryTemplate {
           })
         }
           
-          async deleteById(id: string | number): Promise<void> {
+          async deleteById(id: ${id?.dataTypeTS || 'any'}): Promise<void> {
                 await this.connection.delete({
                     table: this.tableName,
                     where: [{
@@ -67,7 +68,7 @@ export class RepositoryTemplate {
                 })
             }
                 
-              async findById(id: number): Promise<${className}Entity[]> {
+              async findById(id: ${id?.dataTypeTS || 'any'}): Promise<${className}Entity[]> {
                     const SchemaModel = await this.connection.find({
                     table: this.tableName,
                     fields: [

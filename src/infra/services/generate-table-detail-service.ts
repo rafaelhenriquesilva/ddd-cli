@@ -6,6 +6,7 @@ import { DTOTemplate } from "../template/dto-template"
 import { EntityTemplate } from "../template/entity-template"
 import { EntityTestTemplate } from "../template/entity-test-template"
 import { RepositoryTemplate } from "../template/repository-template"
+import { RepositoryTestTemplate } from "../template/repository-test-template"
 import { StringUtil } from "../util/string-util"
 
 export class GenerateTableDetailService {
@@ -45,7 +46,8 @@ export class GenerateTableDetailService {
       DTOTemplate: DTOTemplate.render(className, postgresColumns),
       EntityTemplate: EntityTemplate.render(className, postgresColumns),
       EntityTestTemplate: EntityTestTemplate.render(className, postgresColumns),
-      RepositoryTemplate: RepositoryTemplate.render(className,postgresColumns)
+      RepositoryTemplate: RepositoryTemplate.render(className,postgresColumns),
+      RepositoryTestTemplate: RepositoryTestTemplate.render(className,postgresColumns)
     }
 
     return tableDetail

@@ -1,6 +1,3 @@
-// import { PeopleEntity } from '../../../../new_code/entities/PeopleEntity'
-// import { PeopleRepository } from '../../../../new_code/repositories/PeopleRepository'
-
 // import { faker } from '@faker-js/faker'
 
 // const createEntity = () => {

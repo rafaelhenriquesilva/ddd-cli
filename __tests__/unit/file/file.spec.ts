@@ -6,7 +6,13 @@ import { FileUtil } from '../../../src/infra/util/file-util'
 const pathFile = __dirname + './../../../new_code'
 
 const createFile = async(folder:string, detail: TableDetailDTO, complement:string, 
-  templateName: 'DTOTemplate' | 'EntityTestTemplate' | 'RepositoryTemplate' | 'EntityTemplate') => {
+  templateName: 
+                'DTOTemplate' |
+                'EntityTestTemplate' |
+                'RepositoryTemplate' |
+                'EntityTemplate' | 
+                'RepositoryTestTemplate'
+) => {
   const fileUtil = new FileUtil(pathFile)
   await fileUtil.generateFolder(folder)
   await fileUtil.generateFile(folder, `${detail.className}${complement}`, detail[templateName])
@@ -28,6 +34,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFile('entities', tableDetail, 'Entity.ts', 'EntityTemplate')
     await createFile('__tests__/unit/entities', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
     await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
+    await createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
 
     expect(true).toBe(true)
   })
