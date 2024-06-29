@@ -26,7 +26,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
         
     await createFile('dto', tableDetail, 'DTO.ts', 'DTOTemplate')
     await createFile('entities', tableDetail, 'Entity.ts', 'EntityTemplate')
-    await createFile('test', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
+    await createFile('__tests__/unit/entities', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
     await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
 
     expect(true).toBe(true)

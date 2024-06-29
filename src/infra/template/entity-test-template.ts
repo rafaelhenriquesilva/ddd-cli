@@ -5,7 +5,7 @@ export class EntityTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     let template = `
          import { faker } from '@faker-js/faker' \n
-         import { ${className}Entity } from '../entities/${className}Entity'\n
+         import { ${className}Entity } from '../../../entities/${className}Entity'\n
          const createEntity = () => {
             return new ${className}Entity({`
 

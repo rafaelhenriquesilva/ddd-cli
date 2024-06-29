@@ -9,12 +9,12 @@ export class FileUtil {
   }
  
   generateFolder(folderPath: string) {
-    const dir = path.join(this._pathfile, folderPath);
+    const dir = path.join(this._pathfile, folderPath)
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-      console.info(`Path '${folderPath}' created.`);
+      fs.mkdirSync(dir, { recursive: true })
+      console.info(`Path '${folderPath}' created.`)
     } else {
-      console.info(`Path '${folderPath}' already exists.`);
+      console.info(`Path '${folderPath}' already exists.`)
     }
   }
       
