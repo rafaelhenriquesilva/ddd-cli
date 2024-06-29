@@ -7,16 +7,14 @@ export class FileUtil {
   constructor(pathfile: string) {
     this._pathfile = pathfile
   }
-  // TODO: USAR O METODO RECURSIVO
-  // USAR O @ PARA O IMPORT
-  generateFolder(folderName: string)  {
-    const dir = path.join(this._pathfile,  folderName)
+ 
+  generateFolder(folderPath: string) {
+    const dir = path.join(this._pathfile, folderPath);
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
-      console.info(`Folder '${folderName}' created.`)
-    } 
-    else {
-      console.info(`Folder '${folderName}' already exists.`)
+      fs.mkdirSync(dir, { recursive: true });
+      console.info(`Path '${folderPath}' created.`);
+    } else {
+      console.info(`Path '${folderPath}' already exists.`);
     }
   }
       

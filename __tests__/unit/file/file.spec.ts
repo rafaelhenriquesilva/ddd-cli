@@ -5,11 +5,6 @@ import { GenerateTableDetailService } from '../../../src/infra/services/generate
 import { FileUtil } from '../../../src/infra/util/file-util'
 const pathFile = __dirname + './../../../new_code'
 
-const createFolderNewCode = async() => {
-  const fileUtil = new FileUtil(__dirname + './../../../')
-  await fileUtil.generateFolder('new_code')
-}
-
 const createFile = async(folder:string, detail: TableDetailDTO, complement:string, 
   templateName: 'DTOTemplate' | 'EntityTestTemplate' | 'RepositoryTemplate' | 'EntityTemplate') => {
   const fileUtil = new FileUtil(pathFile)
@@ -24,7 +19,6 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
   beforeAll(async() => {
     repository = new InformationSchemaRepository()
     service = new GenerateTableDetailService(repository)
-    await createFolderNewCode()
   })
   it('Call Information Schema And create file by schema', async() => {
     const tableName = 'developer'
