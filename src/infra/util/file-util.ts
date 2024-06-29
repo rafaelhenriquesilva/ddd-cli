@@ -7,7 +7,8 @@ export class FileUtil {
   constructor(pathfile: string) {
     this._pathfile = pathfile
   }
-
+  // TODO: USAR O METODO RECURSIVO
+  // USAR O @ PARA O IMPORT
   generateFolder(folderName: string)  {
     const dir = path.join(this._pathfile,  folderName)
     if (!fs.existsSync(dir)) {

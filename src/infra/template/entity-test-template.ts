@@ -9,7 +9,7 @@ export class EntityTestTemplate {
             return new ${className}Entity({`
 
     for (const column of columns) {
-      template += `${column.camelCaseColumnName}: ${this.getMockByTsType(column.dataTypeTS)}, \n`
+      template += `${column.camelCaseColumnName}: ${this.getMockByTsType(column)}, \n`
     }
 
     template += ` }) 
@@ -33,8 +33,12 @@ export class EntityTestTemplate {
 
     return template
   }
-
-  static getMockByTsType(type: string): string {
+  /**
+   * TODO
+   * Criar um postgree string
+   * Usar o data type postgree para o mock
+   */
+  static getMockByTsType(column: PostgresColumnDTO): string {
     const MockByTsType: any = {
       'number': 'faker.number.float()',
       'string': 'faker.string.sample()',
@@ -44,7 +48,9 @@ export class EntityTestTemplate {
       'boolean': 'false'
     }
 
-    return MockByTsType[type] || '{}'
+    if(column.dataType === 'uuid') return 'faker.string.uuid()'
+
+    return MockByTsType[column.dataTypeTS] || '{}'
   }
 
 }
