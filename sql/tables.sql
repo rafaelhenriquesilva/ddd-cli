@@ -1,36 +1,26 @@
-CREATE TABLE IF NOT EXISTS people (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    age INT NOT NULL,
-    birth_date DATE NOT NULL,
+-- Cria a extensão uuid-ossp para gerar UUIDs
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Cria a tabela developer, se não existir
+CREATE TABLE IF NOT EXISTS developer (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
+-- Cria a função para atualizar o campo updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-   NEW.updated_at = NOW();
-   RETURN NEW;
+    NEW.updated_at = NOW();
+    RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ language 'plpgsql';
 
--- Adiciona as colunas created_at e updated_at à tabela people
-ALTER TABLE people 
-ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
-
-
-SELECT table_name
-FROM information_schema.tables
-WHERE table_schema = 'public';
-
-SELECT column_name, data_type, is_nullable, column_default
-	FROM information_schema.columns
-	WHERE table_schema = 'public'
-  	AND table_name = 'people' 
-
-
-
-
+-- Cria a trigger para atualizar os campos created_at e updated_at
+CREATE TRIGGER update_developer_updated_at
+BEFORE UPDATE ON developer
+FOR EACH ROW
+EXECUTE PROCEDURE update_updated_at_column();

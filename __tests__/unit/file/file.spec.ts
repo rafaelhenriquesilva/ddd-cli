@@ -27,7 +27,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFolderNewCode()
   })
   it('Call Information Schema And create file by schema', async() => {
-    const tableName = 'school'
+    const tableName = 'developer'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
         
     await createFile('dto', tableDetail, 'DTO.ts', 'DTOTemplate')

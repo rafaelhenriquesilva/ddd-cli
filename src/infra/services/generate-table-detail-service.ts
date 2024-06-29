@@ -16,7 +16,6 @@ export class GenerateTableDetailService {
     this._informationSchemaRepository = informationSchemaRepository
   }
 
-  // TODO criar Postgres Table Adapter
   async createTableDetailBySchemaDetail(schemaName: string, tableName: string): Promise<TableDetailDTO> {
     const columns: InformationSchemaTableColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
     const postgresColumns: PostgresColumnDTO[] = []

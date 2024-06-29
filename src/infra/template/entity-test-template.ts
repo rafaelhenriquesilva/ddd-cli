@@ -1,4 +1,5 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
+import { PostgresStringConverter } from "../converters/postgres-string-converter"
 
 export class EntityTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
@@ -9,7 +10,7 @@ export class EntityTestTemplate {
             return new ${className}Entity({`
 
     for (const column of columns) {
-      template += `${column.camelCaseColumnName}: ${this.getMockByTsType(column)}, \n`
+      template += `${column.camelCaseColumnName}: ${PostgresStringConverter.getMockByTsType(column)}, \n`
     }
 
     template += ` }) 
@@ -32,25 +33,6 @@ export class EntityTestTemplate {
 
 
     return template
-  }
-  /**
-   * TODO
-   * Criar um postgree string
-   * Usar o data type postgree para o mock
-   */
-  static getMockByTsType(column: PostgresColumnDTO): string {
-    const MockByTsType: any = {
-      'number': 'faker.number.float()',
-      'string': 'faker.string.sample()',
-      'Buffer': 'new Buffer(faker.string.sample())',
-      'any': '{}',
-      'Date': 'new Date()',
-      'boolean': 'false'
-    }
-
-    if(column.dataType === 'uuid') return 'faker.string.uuid()'
-
-    return MockByTsType[column.dataTypeTS] || '{}'
   }
 
 }
