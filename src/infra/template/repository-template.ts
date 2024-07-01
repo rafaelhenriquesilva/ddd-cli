@@ -26,7 +26,8 @@ export class RepositoryTemplate {
     let template = `
         import { ${className}Entity } from "../entities/${className}Entity"
         import { DatabaseConnection } from "../../src/infra/database/database-connection"
-        export class ${className}Repository {
+        import { GlobalRepositoryInterface } from "../interfaces/repositories/GlobalRepositoryInterface"
+        export class ${className}Repository implements GlobalRepositoryInterface<${className}Entity> {
             connection: DatabaseConnection
             tableName: string
 

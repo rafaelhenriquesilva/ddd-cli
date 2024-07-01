@@ -5,6 +5,7 @@ import { InformationSchemaRepository } from "../repositories"
 import { DTOTemplate } from "../template/dto-template"
 import { EntityTemplate } from "../template/entity-template"
 import { EntityTestTemplate } from "../template/entity-test-template"
+import { GlobalRepositoryInterfaceTemplate } from "../template/global-repository-interface-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
 import { StringUtil } from "../util/string-util"
@@ -47,7 +48,8 @@ export class GenerateTableDetailService {
       EntityTemplate: EntityTemplate.render(className, postgresColumns),
       EntityTestTemplate: EntityTestTemplate.render(className, postgresColumns),
       RepositoryTemplate: RepositoryTemplate.render(className,postgresColumns),
-      RepositoryTestTemplate: RepositoryTestTemplate.render(className,postgresColumns)
+      RepositoryTestTemplate: RepositoryTestTemplate.render(className,postgresColumns),
+      GlobalRepositoryInterfaceTemplate: GlobalRepositoryInterfaceTemplate.render()
     }
 
     return tableDetail

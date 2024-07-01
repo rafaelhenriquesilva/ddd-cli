@@ -11,11 +11,14 @@ const createFile = async(folder:string, detail: TableDetailDTO, complement:strin
                 'EntityTestTemplate' |
                 'RepositoryTemplate' |
                 'EntityTemplate' | 
-                'RepositoryTestTemplate'
+                'RepositoryTestTemplate' |
+                'GlobalRepositoryInterfaceTemplate',
+  className?: string              
 ) => {
+  const fileName = className ? className : `${detail.className}${complement}`
   const fileUtil = new FileUtil(pathFile)
   await fileUtil.generateFolder(folder)
-  await fileUtil.generateFile(folder, `${detail.className}${complement}`, detail[templateName])
+  await fileUtil.generateFile(folder, fileName, detail[templateName])
 }
 
 describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
@@ -33,6 +36,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFile('dto', tableDetail, 'DTO.ts', 'DTOTemplate')
     await createFile('entities', tableDetail, 'Entity.ts', 'EntityTemplate')
     await createFile('__tests__/unit/entities', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
+    await createFile('interfaces/repositories', tableDetail, '', 'GlobalRepositoryInterfaceTemplate', 'GlobalRepositoryInterface.ts')
     await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
     await createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
 
