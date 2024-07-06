@@ -1,7 +1,16 @@
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+    testMatch: [
+      "**/__tests__/**/*.spec.ts",
+      "**/__tests__/**/*.test.ts",
+      "**/__tests__/**/*.spec.js",
+      "**/__tests__/**/*.test.js"
+    ],
+    testPathIgnorePatterns: [
+      "/node_modules/",
+      "/__tests__/.*(?<!\\.spec|\\.test)\\.ts$"
+    ],
     moduleFileExtensions: ['ts', 'js'],
     transform: {
       '^.+\\.ts$': ['ts-jest', {

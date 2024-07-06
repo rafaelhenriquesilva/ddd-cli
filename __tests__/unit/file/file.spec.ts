@@ -12,8 +12,9 @@ const createFile = async(folder:string, detail: TableDetailDTO, complement:strin
                 'RepositoryTemplate' |
                 'EntityTemplate' | 
                 'RepositoryTestTemplate' |
-                'GlobalRepositoryInterfaceTemplate',
-  className?: string              
+                'GlobalRepositoryInterfaceTemplate' |
+                'MockEntityTemplate'
+  ,className?: string              
 ) => {
   const fileName = className ? className : `${detail.className}${complement}`
   const fileUtil = new FileUtil(pathFile)
@@ -39,6 +40,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFile('interfaces/repositories', tableDetail, '', 'GlobalRepositoryInterfaceTemplate', 'GlobalRepositoryInterface.ts')
     await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
     await createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
+    await createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, 'Repository.spec.ts', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
 
     expect(true).toBe(true)
   })

@@ -18,16 +18,8 @@ export class RepositoryTestTemplate {
         let template = `
        import { ${className}Entity } from '../../../entities/${className}Entity'
        import { ${className}Repository } from '../../../repositories/${className}Repository'
-       import { faker } from '@faker-js/faker'
+       import { create${className}Mock } from '../../unit/mock-entities/${className}/${className}-mock'
         
-       const createEntity = () => {
-       return new ${className}Entity({ \n`
-        for (const column of columns) {
-
-            template += `${column.camelCaseColumnName}: ${PostgresStringConverter.getMockByTsType(column)}, \n`
-        }
-        template += `\n}) 
-         }
 
          describe('${className}Repository Actions', () => {
                 let repository: ${className}Repository
@@ -35,7 +27,7 @@ export class RepositoryTestTemplate {
                 let data: ${className}Entity
                 let mockToUpdate: ${className}Entity
                 beforeAll(async() => {
-                    data = createEntity()
+                    data = createDeveloperMock()
                     repository = new ${className}Repository()
                 })
 
@@ -46,7 +38,7 @@ export class RepositoryTestTemplate {
                 })
 
                 it('${className}Repository Update', async() => {
-                    mockToUpdate = createEntity()
+                    mockToUpdate = createDeveloperMock()
                     await repository.update({
                         id: dataId,
                    `;

@@ -6,6 +6,7 @@ import { DTOTemplate } from "../template/dto-template"
 import { EntityTemplate } from "../template/entity-template"
 import { EntityTestTemplate } from "../template/entity-test-template"
 import { GlobalRepositoryInterfaceTemplate } from "../template/global-repository-interface-template"
+import { MockEntityTemplate } from "../template/mock-entity-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
 import { StringUtil } from "../util/string-util"
@@ -44,6 +45,7 @@ export class GenerateTableDetailService {
       tsTypes: StringUtil.removeQuotesAndCommas(
         StringUtil.convertPostgresColumnsToTsTypes(columns)
       ),
+      MockEntityTemplate: MockEntityTemplate.render(className, postgresColumns),
       DTOTemplate: DTOTemplate.render(className, postgresColumns),
       EntityTemplate: EntityTemplate.render(className, postgresColumns),
       EntityTestTemplate: EntityTestTemplate.render(className, postgresColumns),

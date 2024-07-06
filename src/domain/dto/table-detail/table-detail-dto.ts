@@ -5,6 +5,7 @@ export interface TableDetailDTO {
     columns: PostgresColumnDTO[]
     tsTypes: string
     className: string
+    MockEntityTemplate: string
     DTOTemplate: string
     EntityTemplate: string
     EntityTestTemplate: string
