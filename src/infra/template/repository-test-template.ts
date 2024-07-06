@@ -1,5 +1,4 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
-import { PostgresStringConverter } from "../converters/postgres-string-converter"
 
 export class RepositoryTestTemplate {
     static render(className: string, columns: PostgresColumnDTO[]): string {

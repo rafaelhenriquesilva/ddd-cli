@@ -1,6 +1,6 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 import { InformationSchemaTableColumnDTO } from "../../domain/dto"
-import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
+import { CRUDUsecaseDTO, TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
 import { InformationSchemaRepository } from "../repositories"
 import { DTOTemplate } from "../template/dto-template"
 import { EntityTemplate } from "../template/entity-template"
@@ -22,7 +22,7 @@ export class GenerateTableDetailService {
   async createTableDetailBySchemaDetail(schemaName: string, tableName: string): Promise<TableDetailDTO> {
     const columns: InformationSchemaTableColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(tableName, schemaName)
     const postgresColumns: PostgresColumnDTO[] = []
-    
+
     for (const column of columns) {
       postgresColumns.push({
         camelCaseColumnName: StringUtil.toCamelCase(column.columnName),
@@ -49,13 +49,29 @@ export class GenerateTableDetailService {
       DTOTemplate: DTOTemplate.render(className, postgresColumns),
       EntityTemplate: EntityTemplate.render(className, postgresColumns),
       EntityTestTemplate: EntityTestTemplate.render(className, postgresColumns),
-      RepositoryTemplate: RepositoryTemplate.render(className,postgresColumns),
-      RepositoryTestTemplate: RepositoryTestTemplate.render(className,postgresColumns),
-      GlobalRepositoryInterfaceTemplate: GlobalRepositoryInterfaceTemplate.render()
+      RepositoryTemplate: RepositoryTemplate.render(className, postgresColumns),
+      RepositoryTestTemplate: RepositoryTestTemplate.render(className, postgresColumns),
+      GlobalRepositoryInterfaceTemplate: GlobalRepositoryInterfaceTemplate.render(),
+      UseCaseDetail: this.createUseCaseDetail(className, postgresColumns)
     }
 
     return tableDetail
   }
 
-  
+  createUseCaseDetail(className: string, postgresColumns: PostgresColumnDTO[]): CRUDUsecaseDTO {
+    return {
+      ListAllInterfaceTemplate: '',
+      ListAllTemplate: '',
+      FindByIdInterfaceTemplate: '',
+      FindByIdTemplate: '',
+      DeleteInterfaceTemplate: '',
+      DeleteTemplate: '',
+      CreateInterfaceTemplate: '',
+      CreateTemplate: '',
+      UpdateInterfaceTemplate: '',
+      UpdateTemplate: '',
+    }
+  }
+
+
 }

@@ -12,4 +12,18 @@ export interface TableDetailDTO {
     GlobalRepositoryInterfaceTemplate: string
     RepositoryTemplate: string
     RepositoryTestTemplate: string
+    UseCaseDetail?: CRUDUsecaseDTO
+}
+
+export interface CRUDUsecaseDTO {
+    ListAllInterfaceTemplate: string
+    ListAllTemplate: string
+    FindByIdInterfaceTemplate: string
+    FindByIdTemplate: string
+    DeleteInterfaceTemplate: string
+    DeleteTemplate: string
+    CreateInterfaceTemplate: string
+    CreateTemplate: string
+    UpdateInterfaceTemplate: string
+    UpdateTemplate: string
 }
