@@ -10,7 +10,10 @@ import { MockEntityTemplate } from "../template/mock-entity-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
 import { CreateUseCaseInterfaceTemplate } from "../template/usecases/interfaces/create-usecase-interface-template"
+import { DeleteUseCaseInterfaceTemplate } from "../template/usecases/interfaces/delete-usecase-interface-template"
+import { FindByIdUseCaseInterfaceTemplate } from "../template/usecases/interfaces/find-by-id-usecase-interface-template"
 import { ListAllUseCaseInterfaceTemplate } from "../template/usecases/interfaces/list-all-usecase-interface-template"
+import { UpdateUseCaseInterfaceTemplate } from "../template/usecases/interfaces/update-usecase-interface-template"
 import { StringUtil } from "../util/string-util"
 
 export class GenerateTableDetailService {
@@ -64,13 +67,13 @@ export class GenerateTableDetailService {
     return {
       ListAllUseCaseInterfaceTemplate: ListAllUseCaseInterfaceTemplate.render(className, postgresColumns),
       ListAllUseCaseTemplate: '',
-      FindByIdUseCaseInterfaceTemplate: '',
+      FindByIdUseCaseInterfaceTemplate: FindByIdUseCaseInterfaceTemplate.render(className, postgresColumns),
       FindByIdUseCaseTemplate: '',
-      DeleteUseCaseInterfaceTemplate: '',
+      DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className, postgresColumns),
       DeleteUseCaseTemplate: '',
       CreateUseCaseInterfaceTemplate: CreateUseCaseInterfaceTemplate.render(className, postgresColumns),
       CreateUseCaseTemplate: '',
-      UpdateUseCaseInterfaceTemplate: '',
+      UpdateUseCaseInterfaceTemplate: UpdateUseCaseInterfaceTemplate.render(className, postgresColumns),
       UpdateUseCaseTemplate: '',
     }
   }

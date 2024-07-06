@@ -66,6 +66,9 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
      //Usecases interfaces
     await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'CreateUseCaseInterfaceTemplate', `ICreate${tableDetail.className}Usecase.ts`)
     await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'ListAllUseCaseInterfaceTemplate', `IListAll${tableDetail.className}Usecase.ts`)
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'FindByIdUseCaseInterfaceTemplate', `IFindById${tableDetail.className}Usecase.ts`)
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'UpdateUseCaseInterfaceTemplate', `IUpdate${tableDetail.className}Usecase.ts`)
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'DeleteUseCaseInterfaceTemplate', `IDelete${tableDetail.className}Usecase.ts`)
 
     expect(true).toBe(true)
   })
