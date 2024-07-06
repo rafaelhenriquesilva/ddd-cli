@@ -22,6 +22,27 @@ const createFile = async(folder:string, detail: TableDetailDTO, complement:strin
   await fileUtil.generateFile(folder, fileName, detail[templateName])
 }
 
+const createFileUseCase = async(folder:string, detail: TableDetailDTO, complement:string, 
+  templateName: 
+                'ListAllUseCaseInterfaceTemplate' |
+                'ListAllUseCaseTemplate' |
+                'FindByIdUseCaseInterfaceTemplate' |
+                'FindByIdUseCaseTemplate' | 
+                'DeleteUseCaseInterfaceTemplate' |
+                'DeleteUseCaseTemplate' |
+                'CreateUseCaseInterfaceTemplate' |
+                'CreateUseCaseTemplate' |
+                'UpdateUseCaseInterfaceTemplate' |
+                'UpdateUseCaseTemplate'
+  ,className: string              
+) => {
+  const template = detail.UseCaseDetail[templateName] ? detail.UseCaseDetail[templateName]  : '' 
+  const fileUtil = new FileUtil(pathFile)
+  await fileUtil.generateFolder(folder)
+  fileUtil.generateFile(folder, className,template)
+    
+}
+
 describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
   let repository: InformationSchemaRepository
   let service: GenerateTableDetailService
@@ -41,6 +62,10 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
     await createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
     await createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, 'Repository.spec.ts', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
+
+     //Usecases interfaces
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, '', 'CreateUseCaseInterfaceTemplate', `ICreate${tableDetail.className}Usecase.ts`)
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, '', 'ListAllUseCaseInterfaceTemplate', `IListAll${tableDetail.className}Usecase.ts`)
 
     expect(true).toBe(true)
   })

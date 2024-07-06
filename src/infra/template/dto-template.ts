@@ -8,7 +8,7 @@ export class DTOTemplate {
           `
     for (const column of columns) {
     
-      template += `         ${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
+      template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
     }
     
     template += '}'

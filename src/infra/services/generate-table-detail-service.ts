@@ -9,6 +9,8 @@ import { GlobalRepositoryInterfaceTemplate } from "../template/global-repository
 import { MockEntityTemplate } from "../template/mock-entity-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
+import { CreateUseCaseInterfaceTemplate } from "../template/usecases/interfaces/create-usecase-interface-template"
+import { ListAllUseCaseInterfaceTemplate } from "../template/usecases/interfaces/list-all-usecase-interface-template"
 import { StringUtil } from "../util/string-util"
 
 export class GenerateTableDetailService {
@@ -60,16 +62,16 @@ export class GenerateTableDetailService {
 
   createUseCaseDetail(className: string, postgresColumns: PostgresColumnDTO[]): CRUDUsecaseDTO {
     return {
-      ListAllInterfaceTemplate: '',
-      ListAllTemplate: '',
-      FindByIdInterfaceTemplate: '',
-      FindByIdTemplate: '',
-      DeleteInterfaceTemplate: '',
-      DeleteTemplate: '',
-      CreateInterfaceTemplate: '',
-      CreateTemplate: '',
-      UpdateInterfaceTemplate: '',
-      UpdateTemplate: '',
+      ListAllUseCaseInterfaceTemplate: ListAllUseCaseInterfaceTemplate.render(className, postgresColumns),
+      ListAllUseCaseTemplate: '',
+      FindByIdUseCaseInterfaceTemplate: '',
+      FindByIdUseCaseTemplate: '',
+      DeleteUseCaseInterfaceTemplate: '',
+      DeleteUseCaseTemplate: '',
+      CreateUseCaseInterfaceTemplate: CreateUseCaseInterfaceTemplate.render(className, postgresColumns),
+      CreateUseCaseTemplate: '',
+      UpdateUseCaseInterfaceTemplate: '',
+      UpdateUseCaseTemplate: '',
     }
   }
 
