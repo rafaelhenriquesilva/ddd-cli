@@ -22,7 +22,7 @@ const createFile = async(folder:string, detail: TableDetailDTO, complement:strin
   await fileUtil.generateFile(folder, fileName, detail[templateName])
 }
 
-const createFileUseCase = async(folder:string, detail: TableDetailDTO, complement:string, 
+const createFileUseCase = async(folder:string, detail: TableDetailDTO,
   templateName: 
                 'ListAllUseCaseInterfaceTemplate' |
                 'ListAllUseCaseTemplate' |
@@ -64,8 +64,8 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, 'Repository.spec.ts', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
 
      //Usecases interfaces
-    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, '', 'CreateUseCaseInterfaceTemplate', `ICreate${tableDetail.className}Usecase.ts`)
-    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, '', 'ListAllUseCaseInterfaceTemplate', `IListAll${tableDetail.className}Usecase.ts`)
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'CreateUseCaseInterfaceTemplate', `ICreate${tableDetail.className}Usecase.ts`)
+    await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'ListAllUseCaseInterfaceTemplate', `IListAll${tableDetail.className}Usecase.ts`)
 
     expect(true).toBe(true)
   })
