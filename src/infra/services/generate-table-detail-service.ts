@@ -9,6 +9,8 @@ import { GlobalRepositoryInterfaceTemplate } from "../template/global-repository
 import { MockEntityTemplate } from "../template/mock-entity-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
+import { CreateUseCaseTemplate } from "../template/usecases/classes/create-usecase-template"
+import { UpdateUseCaseTemplate } from "../template/usecases/classes/update-usecase-template"
 import { CreateUseCaseInterfaceTemplate } from "../template/usecases/interfaces/create-usecase-interface-template"
 import { DeleteUseCaseInterfaceTemplate } from "../template/usecases/interfaces/delete-usecase-interface-template"
 import { FindByIdUseCaseInterfaceTemplate } from "../template/usecases/interfaces/find-by-id-usecase-interface-template"
@@ -72,9 +74,9 @@ export class GenerateTableDetailService {
       DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className, postgresColumns),
       DeleteUseCaseTemplate: '',
       CreateUseCaseInterfaceTemplate: CreateUseCaseInterfaceTemplate.render(className, postgresColumns),
-      CreateUseCaseTemplate: '',
+      CreateUseCaseTemplate: CreateUseCaseTemplate.render(className, postgresColumns),
       UpdateUseCaseInterfaceTemplate: UpdateUseCaseInterfaceTemplate.render(className, postgresColumns),
-      UpdateUseCaseTemplate: '',
+      UpdateUseCaseTemplate: UpdateUseCaseTemplate.render(className, postgresColumns),
     }
   }
 
