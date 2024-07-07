@@ -92,6 +92,9 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     // UseCases Tests
     await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'CreateUseCaseTestTemplate', `Create${tableDetail.className}Usecase.spec.ts`)
     await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'UpdateUseCaseTestTemplate', `Update${tableDetail.className}Usecase.spec.ts`)
+    await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'DeleteUseCaseTestTemplate', `Delete${tableDetail.className}Usecase.spec.ts`)
+    await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'FindByIdUseCaseTestTemplate', `FindById${tableDetail.className}Usecase.spec.ts`)
+    await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'ListAllUseCaseTestTemplate', `ListAll${tableDetail.className}Usecase.spec.ts`)
     
     expect(true).toBe(true)
   })

@@ -21,6 +21,9 @@ import { FindByIdUseCaseInterfaceTemplate } from "../templates/usecases/interfac
 import { ListAllUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/list-all-usecase-interface-template"
 import { UpdateUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/update-usecase-interface-template"
 import { CreateUseCaseTestTemplate } from "../templates/usecases/tests/create-usecase-test-template"
+import { DeleteUseCaseTestTemplate } from "../templates/usecases/tests/delete-usecase-test-template"
+import { FindByIdUseCaseTestTemplate } from "../templates/usecases/tests/find-by-id-usecase-test-template"
+import { ListAllUseCaseTestTemplate } from "../templates/usecases/tests/list-all-usecase-test-template"
 import { UpdateUseCaseTestTemplate } from "../templates/usecases/tests/update-usecase-test-template"
 import { StringUtil } from "../util/string-util"
 
@@ -84,9 +87,9 @@ export class GenerateTableDetailService {
       CreateUseCaseTemplate: CreateUseCaseTemplate.render(className, postgresColumns),
       UpdateUseCaseInterfaceTemplate: UpdateUseCaseInterfaceTemplate.render(className, postgresColumns),
       UpdateUseCaseTemplate: UpdateUseCaseTemplate.render(className, postgresColumns),
-      ListAllUseCaseTestTemplate: '',
-      FindByIdUseCaseTestTemplate: '',
-      DeleteUseCaseTestTemplate: '',
+      ListAllUseCaseTestTemplate: ListAllUseCaseTestTemplate.render(className, postgresColumns),
+      FindByIdUseCaseTestTemplate: FindByIdUseCaseTestTemplate.render(className, postgresColumns),
+      DeleteUseCaseTestTemplate: DeleteUseCaseTestTemplate.render(className, postgresColumns),
       CreateUseCaseTestTemplate: CreateUseCaseTestTemplate.render(className, postgresColumns),
       UpdateUseCaseTestTemplate: UpdateUseCaseTestTemplate.render(className, postgresColumns),
     }
