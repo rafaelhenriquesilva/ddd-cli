@@ -1,11 +1,10 @@
 import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
 
-
 export class CreateUseCaseTemplate {
     static render(className: string, columns: PostgresColumnDTO[]): string {
         const columnsToCreate = columns.filter(column => column.columnDefault === null)
         let template = `
-         import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
+        import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
         import { ${className}Entity } from "../../entities/${className}Entity";
         import { ICreate${className}UseCase, inputCreate${className} } from "../../interfaces/usecases/${className}/ICreate${className}UseCase";
 

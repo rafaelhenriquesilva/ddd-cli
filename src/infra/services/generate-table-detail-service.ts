@@ -10,6 +10,9 @@ import { MockEntityTemplate } from "../template/mock-entity-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
 import { CreateUseCaseTemplate } from "../template/usecases/classes/create-usecase-template"
+import { DeleteUseCaseTemplate } from "../template/usecases/classes/delete-usecase-template"
+import { FindByIdUseCaseTemplate } from "../template/usecases/classes/find-by-id-usecase-template"
+import { ListAllUseCaseTemplate } from "../template/usecases/classes/list-all-usecase-template"
 import { UpdateUseCaseTemplate } from "../template/usecases/classes/update-usecase-template"
 import { CreateUseCaseInterfaceTemplate } from "../template/usecases/interfaces/create-usecase-interface-template"
 import { DeleteUseCaseInterfaceTemplate } from "../template/usecases/interfaces/delete-usecase-interface-template"
@@ -68,11 +71,11 @@ export class GenerateTableDetailService {
   createUseCaseDetail(className: string, postgresColumns: PostgresColumnDTO[]): CRUDUsecaseDTO {
     return {
       ListAllUseCaseInterfaceTemplate: ListAllUseCaseInterfaceTemplate.render(className, postgresColumns),
-      ListAllUseCaseTemplate: '',
+      ListAllUseCaseTemplate: ListAllUseCaseTemplate.render(className, postgresColumns),
       FindByIdUseCaseInterfaceTemplate: FindByIdUseCaseInterfaceTemplate.render(className, postgresColumns),
-      FindByIdUseCaseTemplate: '',
+      FindByIdUseCaseTemplate: FindByIdUseCaseTemplate.render(className, postgresColumns),
       DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className, postgresColumns),
-      DeleteUseCaseTemplate: '',
+      DeleteUseCaseTemplate: DeleteUseCaseTemplate.render(className, postgresColumns),
       CreateUseCaseInterfaceTemplate: CreateUseCaseInterfaceTemplate.render(className, postgresColumns),
       CreateUseCaseTemplate: CreateUseCaseTemplate.render(className, postgresColumns),
       UpdateUseCaseInterfaceTemplate: UpdateUseCaseInterfaceTemplate.render(className, postgresColumns),

@@ -1,6 +1,5 @@
 import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
 
-
 export class UpdateUseCaseTemplate {
     static render(className: string, columns: PostgresColumnDTO[]): string {
         const columnsToUpdate = columns.filter(column => column.columnDefault === null)
