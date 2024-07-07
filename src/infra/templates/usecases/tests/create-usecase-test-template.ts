@@ -19,7 +19,7 @@ export class CreateUseCaseTestTemplate {
                     const mock = create${className}Mock()
                     await usecase.handle({ \n `
     for (const column of columnsToCreate) {
-        template += `${column.camelCaseColumnName}: mock.${column.camelCaseColumnName}, \n`
+      template += `${column.camelCaseColumnName}: mock.${column.camelCaseColumnName}, \n`
     }
 
     template += `\n})

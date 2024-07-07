@@ -1,9 +1,6 @@
-import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
-
-
 export class ListAllUseCaseTestTemplate {
-  static render(className: string, columns: PostgresColumnDTO[]): string {
-    let template = `
+  static render(className: string): string {
+    const template = `
 import { ListAll${className}UseCase } from "../../../../usecases/${className}/ListAll${className}UseCase"
 import { repositoryMock } from "../../mock-repositories/repository-mock"
 

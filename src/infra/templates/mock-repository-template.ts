@@ -1,6 +1,6 @@
 export class MockRepositoryTemplate {
-    static render(): string {
-        let template = `
+  static render(): string {
+    const template = `
 export const repositoryMock = {
   listAll: jest.fn(),
   deleteById: jest.fn(),
@@ -9,7 +9,7 @@ export const repositoryMock = {
   update: jest.fn(),
 }
         `
-        return template
-    }
+    return template
+  }
 
 }

@@ -77,19 +77,19 @@ export class GenerateTableDetailService {
 
   createUseCaseDetail(className: string, postgresColumns: PostgresColumnDTO[]): CRUDUsecaseDTO {
     return {
-      ListAllUseCaseInterfaceTemplate: ListAllUseCaseInterfaceTemplate.render(className, postgresColumns),
-      ListAllUseCaseTemplate: ListAllUseCaseTemplate.render(className, postgresColumns),
-      FindByIdUseCaseInterfaceTemplate: FindByIdUseCaseInterfaceTemplate.render(className, postgresColumns),
-      FindByIdUseCaseTemplate: FindByIdUseCaseTemplate.render(className, postgresColumns),
-      DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className, postgresColumns),
-      DeleteUseCaseTemplate: DeleteUseCaseTemplate.render(className, postgresColumns),
+      ListAllUseCaseInterfaceTemplate: ListAllUseCaseInterfaceTemplate.render(className),
+      ListAllUseCaseTemplate: ListAllUseCaseTemplate.render(className),
+      FindByIdUseCaseInterfaceTemplate: FindByIdUseCaseInterfaceTemplate.render(className),
+      FindByIdUseCaseTemplate: FindByIdUseCaseTemplate.render(className),
+      DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className),
+      DeleteUseCaseTemplate: DeleteUseCaseTemplate.render(className),
       CreateUseCaseInterfaceTemplate: CreateUseCaseInterfaceTemplate.render(className, postgresColumns),
       CreateUseCaseTemplate: CreateUseCaseTemplate.render(className, postgresColumns),
       UpdateUseCaseInterfaceTemplate: UpdateUseCaseInterfaceTemplate.render(className, postgresColumns),
       UpdateUseCaseTemplate: UpdateUseCaseTemplate.render(className, postgresColumns),
-      ListAllUseCaseTestTemplate: ListAllUseCaseTestTemplate.render(className, postgresColumns),
-      FindByIdUseCaseTestTemplate: FindByIdUseCaseTestTemplate.render(className, postgresColumns),
-      DeleteUseCaseTestTemplate: DeleteUseCaseTestTemplate.render(className, postgresColumns),
+      ListAllUseCaseTestTemplate: ListAllUseCaseTestTemplate.render(className),
+      FindByIdUseCaseTestTemplate: FindByIdUseCaseTestTemplate.render(className),
+      DeleteUseCaseTestTemplate: DeleteUseCaseTestTemplate.render(className),
       CreateUseCaseTestTemplate: CreateUseCaseTestTemplate.render(className, postgresColumns),
       UpdateUseCaseTestTemplate: UpdateUseCaseTestTemplate.render(className, postgresColumns),
     }

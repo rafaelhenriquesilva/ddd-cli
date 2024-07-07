@@ -2,7 +2,7 @@ import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 
 export class RepositoryTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
-    let id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
+    const id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
     const variableMapperName = 'row'
     const variableToAction = 'input'
     // TODO - isolate to use in others files

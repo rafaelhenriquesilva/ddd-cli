@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS language_developer (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     developer_id UUID NOT NULL,
     language TEXT NOT NULL,
-    experience_time INT NOT NULL, -- Time in months or years, as preferred
     level TEXT NOT NULL, -- e.g., 'Beginner', 'Intermediate', 'Advanced'
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

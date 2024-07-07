@@ -75,7 +75,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, '', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
     
 
-     //Usecases interfaces
+    //Usecases interfaces
     await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'CreateUseCaseInterfaceTemplate', `ICreate${tableDetail.className}Usecase.ts`)
     await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'ListAllUseCaseInterfaceTemplate', `IListAll${tableDetail.className}Usecase.ts`)
     await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'FindByIdUseCaseInterfaceTemplate', `IFindById${tableDetail.className}Usecase.ts`)

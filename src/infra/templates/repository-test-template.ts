@@ -1,20 +1,20 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 
 export class RepositoryTestTemplate {
-    static render(className: string, columns: PostgresColumnDTO[]): string {
-        let id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
+  static render(className: string, columns: PostgresColumnDTO[]): string {
+    const id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
 
-        const fieldsToInsertOrUpdate = (): PostgresColumnDTO[] => {
-            const fields = columns.filter(
-                (data) => data.camelCaseColumnName !== "id" &&
+    const fieldsToInsertOrUpdate = (): PostgresColumnDTO[] => {
+      const fields = columns.filter(
+        (data) => data.camelCaseColumnName !== "id" &&
                     data.camelCaseColumnName !== "createdAt" &&
                     data.camelCaseColumnName !== "updatedAt"
-            )
+      )
 
-            return fields
-        }
+      return fields
+    }
 
-        let template = `
+    let template = `
        import { ${className}Entity } from '../../../entities/${className}Entity'
        import { ${className}Repository } from '../../../repositories/${className}Repository'
        import { create${className}Mock } from '../../unit/mock-entities/${className}/${className}-mock'
@@ -26,7 +26,7 @@ export class RepositoryTestTemplate {
                 let data: ${className}Entity
                 let mockToUpdate: ${className}Entity
                 beforeAll(async() => {
-                    data = createDeveloperMock()
+                    data = create${className}Mock()
                     repository = new ${className}Repository()
                 })
 
@@ -37,17 +37,17 @@ export class RepositoryTestTemplate {
                 })
 
                 it('${className}Repository Update', async() => {
-                    mockToUpdate = createDeveloperMock()
+                    mockToUpdate = create${className}Mock()
                     await repository.update({
                         id: dataId,
-                   `;
+                   `
 
-                    for(const data of fieldsToInsertOrUpdate()) {
-                        template += `${data.camelCaseColumnName}: mockToUpdate.${data.camelCaseColumnName}, \n`
-                    }
+    for(const data of fieldsToInsertOrUpdate()) {
+      template += `${data.camelCaseColumnName}: mockToUpdate.${data.camelCaseColumnName}, \n`
+    }
                    
                    
-                   template +=` })
+    template +=` })
                 })
 
                 
@@ -55,11 +55,11 @@ export class RepositoryTestTemplate {
                          const result = await repository.findById(dataId)
                          expect(result.length).toBe(1)
                 `
-                for(const data of fieldsToInsertOrUpdate()) {
-                    template += `expect(result[0].${data.camelCaseColumnName}).toBe(mockToUpdate.${data.camelCaseColumnName}) \n`
-                }
+    for(const data of fieldsToInsertOrUpdate()) {
+      template += `expect(result[0].${data.camelCaseColumnName}).toBe(mockToUpdate.${data.camelCaseColumnName}) \n`
+    }
                 
-                template += `
+    template += `
                 })
 
                it('${className}Repository List All', async() => {
@@ -79,6 +79,6 @@ export class RepositoryTestTemplate {
         })
         `
 
-        return template
-    }
+    return template
+  }
 }

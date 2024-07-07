@@ -1,9 +1,6 @@
-import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
-
-
 export class FindByIdUseCaseTestTemplate {
-  static render(className: string, columns: PostgresColumnDTO[]): string {
-    let template = `
+  static render(className: string): string {
+    const template = `
            
           
 import { FindById${className}UseCase } from "../../../../usecases/${className}/FindById${className}UseCase"

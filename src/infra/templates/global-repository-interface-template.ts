@@ -1,6 +1,6 @@
 export class GlobalRepositoryInterfaceTemplate {
-    static render(): string { 
-        return `
+  static render(): string { 
+    return `
             export interface GlobalRepositoryInterface<T> {
                 listAll(): Promise<T[]>
                 deleteById(id: string): Promise<void>
@@ -9,5 +9,5 @@ export class GlobalRepositoryInterfaceTemplate {
                 update(input: Partial<T>): Promise<void>
             }
         `
-    }
+  }
 }

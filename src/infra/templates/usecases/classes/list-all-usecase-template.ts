@@ -1,8 +1,6 @@
-import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
-
 export class ListAllUseCaseTemplate {
-    static render(className: string, columns: PostgresColumnDTO[]): string {
-        let template = `
+  static render(className: string): string {
+    const template = `
                 import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
                 import { ${className}Entity } from "../../entities/${className}Entity";
                 import { IListAll${className}UseCase } from "../../interfaces/usecases/${className}/IListAll${className}UseCase";
@@ -22,7 +20,7 @@ export class ListAllUseCaseTemplate {
                     }
                 }
        \n`
-        return template
-    }
+    return template
+  }
 }
 

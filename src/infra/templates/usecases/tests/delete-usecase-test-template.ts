@@ -1,9 +1,7 @@
-import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
-
 
 export class DeleteUseCaseTestTemplate {
-  static render(className: string, columns: PostgresColumnDTO[]): string {
-    let template = `
+  static render(className: string): string {
+    const template = `
            
             import { Delete${className}UseCase } from "../../../../usecases/${className}/Delete${className}UseCase"
             import { create${className}Mock } from "../../mock-entities/${className}/${className}-mock"

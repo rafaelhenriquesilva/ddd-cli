@@ -1,8 +1,6 @@
-import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
-
 export class DeleteUseCaseTemplate {
-    static render(className: string, columns: PostgresColumnDTO[]): string {
-        let template = `
+  static render(className: string): string {
+    const template = `
                 import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
                 import { ${className}Entity } from "../../entities/${className}Entity";
                 import { IDelete${className}UseCase } from "../../interfaces/usecases/${className}/IDelete${className}UseCase";
@@ -23,7 +21,7 @@ export class DeleteUseCaseTemplate {
        \n`
       
 
-        return template
-    }
+    return template
+  }
 }
 
