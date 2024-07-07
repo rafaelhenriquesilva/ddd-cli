@@ -7,6 +7,7 @@ import { EntityTemplate } from "../template/entity-template"
 import { EntityTestTemplate } from "../template/entity-test-template"
 import { GlobalRepositoryInterfaceTemplate } from "../template/global-repository-interface-template"
 import { MockEntityTemplate } from "../template/mock-entity-template"
+import { MockRepositoryTemplate } from "../template/mock-repository-template"
 import { RepositoryTemplate } from "../template/repository-template"
 import { RepositoryTestTemplate } from "../template/repository-test-template"
 import { CreateUseCaseTemplate } from "../template/usecases/classes/create-usecase-template"
@@ -62,6 +63,7 @@ export class GenerateTableDetailService {
       RepositoryTemplate: RepositoryTemplate.render(className, postgresColumns),
       RepositoryTestTemplate: RepositoryTestTemplate.render(className, postgresColumns),
       GlobalRepositoryInterfaceTemplate: GlobalRepositoryInterfaceTemplate.render(),
+      MockRepositoryTemplate: MockRepositoryTemplate.render(),
       UseCaseDetail: this.createUseCaseDetail(className, postgresColumns)
     }
 

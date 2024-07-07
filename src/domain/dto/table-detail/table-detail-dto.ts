@@ -6,6 +6,7 @@ export interface TableDetailDTO {
     tsTypes: string
     className: string
     MockEntityTemplate: string
+    MockRepositoryTemplate: string
     DTOTemplate: string
     EntityTemplate: string
     EntityTestTemplate: string

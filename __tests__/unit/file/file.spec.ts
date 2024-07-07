@@ -13,7 +13,8 @@ const createFile = async(folder:string, detail: TableDetailDTO, complement:strin
                 'EntityTemplate' | 
                 'RepositoryTestTemplate' |
                 'GlobalRepositoryInterfaceTemplate' |
-                'MockEntityTemplate'
+                'MockEntityTemplate' | 
+                'MockRepositoryTemplate'
   ,className?: string              
 ) => {
   const fileName = className ? className : `${detail.className}${complement}`
@@ -54,14 +55,20 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
   it('Call Information Schema And create file by schema', async() => {
     const tableName = 'developer'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
-        
+
+    // Classe Global
+    await createFile(`__tests__/unit/mock-repositories`, tableDetail, '', 'MockRepositoryTemplate', `repository-mock.ts`)
+
+
+    // Camadas da tabela    
     await createFile('dto', tableDetail, 'DTO.ts', 'DTOTemplate')
     await createFile('entities', tableDetail, 'Entity.ts', 'EntityTemplate')
     await createFile('__tests__/unit/entities', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
     await createFile('interfaces/repositories', tableDetail, '', 'GlobalRepositoryInterfaceTemplate', 'GlobalRepositoryInterface.ts')
     await createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
     await createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
-    await createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, 'Repository.spec.ts', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
+    await createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, '', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
+    
 
      //Usecases interfaces
     await createFileUseCase(`interfaces/usecases/${tableDetail.className}`, tableDetail, 'CreateUseCaseInterfaceTemplate', `ICreate${tableDetail.className}Usecase.ts`)
