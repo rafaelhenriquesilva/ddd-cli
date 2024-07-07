@@ -20,6 +20,8 @@ import { DeleteUseCaseInterfaceTemplate } from "../template/usecases/interfaces/
 import { FindByIdUseCaseInterfaceTemplate } from "../template/usecases/interfaces/find-by-id-usecase-interface-template"
 import { ListAllUseCaseInterfaceTemplate } from "../template/usecases/interfaces/list-all-usecase-interface-template"
 import { UpdateUseCaseInterfaceTemplate } from "../template/usecases/interfaces/update-usecase-interface-template"
+import { CreateUseCaseTestTemplate } from "../template/usecases/tests/create-usecase-test-template"
+import { UpdateUseCaseTestTemplate } from "../template/usecases/tests/update-usecase-test-template"
 import { StringUtil } from "../util/string-util"
 
 export class GenerateTableDetailService {
@@ -82,6 +84,11 @@ export class GenerateTableDetailService {
       CreateUseCaseTemplate: CreateUseCaseTemplate.render(className, postgresColumns),
       UpdateUseCaseInterfaceTemplate: UpdateUseCaseInterfaceTemplate.render(className, postgresColumns),
       UpdateUseCaseTemplate: UpdateUseCaseTemplate.render(className, postgresColumns),
+      ListAllUseCaseTestTemplate: '',
+      FindByIdUseCaseTestTemplate: '',
+      DeleteUseCaseTestTemplate: '',
+      CreateUseCaseTestTemplate: CreateUseCaseTestTemplate.render(className, postgresColumns),
+      UpdateUseCaseTestTemplate: UpdateUseCaseTestTemplate.render(className, postgresColumns),
     }
   }
 

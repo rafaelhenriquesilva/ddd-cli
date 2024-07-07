@@ -27,4 +27,9 @@ export interface CRUDUsecaseDTO {
     CreateUseCaseTemplate: string
     UpdateUseCaseInterfaceTemplate: string
     UpdateUseCaseTemplate: string
+    ListAllUseCaseTestTemplate: string
+    FindByIdUseCaseTestTemplate: string
+    DeleteUseCaseTestTemplate: string
+    CreateUseCaseTestTemplate: string
+    UpdateUseCaseTestTemplate: string
 }

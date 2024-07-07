@@ -34,7 +34,12 @@ const createFileUseCase = async(folder:string, detail: TableDetailDTO,
                 'CreateUseCaseInterfaceTemplate' |
                 'CreateUseCaseTemplate' |
                 'UpdateUseCaseInterfaceTemplate' |
-                'UpdateUseCaseTemplate'
+                'UpdateUseCaseTemplate' |
+                'ListAllUseCaseTestTemplate' |
+                'FindByIdUseCaseTestTemplate' |
+                'DeleteUseCaseTestTemplate' |
+                'CreateUseCaseTestTemplate' |
+                'UpdateUseCaseTestTemplate' 
   ,className: string              
 ) => {
   const template = detail.UseCaseDetail[templateName] ? detail.UseCaseDetail[templateName]  : '' 
@@ -84,6 +89,10 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     await createFileUseCase(`usecases/${tableDetail.className}`, tableDetail, 'ListAllUseCaseTemplate', `ListAll${tableDetail.className}Usecase.ts`)
     await createFileUseCase(`usecases/${tableDetail.className}`, tableDetail, 'DeleteUseCaseTemplate', `Delete${tableDetail.className}Usecase.ts`)
 
+    // UseCases Tests
+    await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'CreateUseCaseTestTemplate', `Create${tableDetail.className}Usecase.spec.ts`)
+    await createFileUseCase(`__tests__/unit/usecases/${tableDetail.className}`, tableDetail, 'UpdateUseCaseTestTemplate', `Update${tableDetail.className}Usecase.spec.ts`)
+    
     expect(true).toBe(true)
   })
 })
