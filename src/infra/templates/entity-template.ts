@@ -10,10 +10,7 @@ export class EntityTemplate {
         `
     template += EntityTemplate.addingColumnsAndTypes(columns)
 
-    template += `\n constructor(dto: ${className}DTO) {`
-
-    template += this.populateEntityWithDto(columns)
-    template += `}\n`
+    template += this.createConstructor(columns, className)
 
     template += this.createGettersToColumns(columns)
     template += this.createObjectReturn(columns, className)
@@ -30,13 +27,14 @@ export class EntityTemplate {
     return fieldsTemplate
   }
 
-  static populateEntityWithDto(columns: PostgresColumnDTO[]): string {
-    let populateConstructorTemplate = ''
+  static createConstructor(columns: PostgresColumnDTO[], className: string): string {
+    let constructorTemplate = `\n constructor(dto: ${className}DTO) { \n`
     for (const column of columns) {
 
-      populateConstructorTemplate += `this._${column.camelCaseColumnName} = dto.${column.camelCaseColumnName} \n`
+      constructorTemplate += `this._${column.camelCaseColumnName} = dto.${column.camelCaseColumnName} \n`
     }
-    return populateConstructorTemplate
+    constructorTemplate += `}\n`
+    return constructorTemplate
   }
 
   static createGettersToColumns(columns: PostgresColumnDTO[]) {

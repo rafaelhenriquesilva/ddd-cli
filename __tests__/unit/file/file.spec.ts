@@ -58,7 +58,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
     service = new GenerateTableDetailService(repository)
   })
   it('Call Information Schema And create file by schema', async() => {
-    const tableName = 'language_developer'
+    const tableName = 'developer'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
 
     // Classe Global

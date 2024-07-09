@@ -7,20 +7,24 @@ export class EntityTestTemplate {
             
             describe('Generate a Entity ${className}', () => {
                it('should be entity values', async () => {
-                  const entity = create${className}Mock()
-                  expect(entity.toJson()).toEqual({\n`
-
-    for (const column of columns) {
-      template += `${column.camelCaseColumnName}: entity.${column.camelCaseColumnName}, \n`
-    }
-
-    template += `})
+                  const entity = create${className}Mock()\n`
+    template += this.validateJSONTemplate(columns)
+    template += `
                })
             })`
 
 
 
     return template
+  }
+
+  static validateJSONTemplate(columns: PostgresColumnDTO[]): string {
+    let JSONTemplate = `expect(entity.toJson()).toEqual({\n`
+    for (const column of columns) {
+      JSONTemplate += `${column.camelCaseColumnName}: entity.${column.camelCaseColumnName}, \n`
+    }
+    JSONTemplate += `\n})`
+    return JSONTemplate
   }
 
 }

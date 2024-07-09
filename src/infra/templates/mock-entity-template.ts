@@ -5,18 +5,28 @@ export class MockEntityTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     let template = `
          import { faker } from '@faker-js/faker' \n
-         import { ${className}Entity } from "../../../../entities/${className}Entity"\n
-         export const create${className}Mock = () => {
-            return new ${className}Entity({`
+         import { ${className}Entity } from "../../../../entities/${className}Entity"\n`
+    template += this.createMockEntity(columns, className)
+
+    return template
+  }
+
+  static createMockEntity(columns: PostgresColumnDTO[], className: string): string {
+    let mockEntityTemplate = `
+export const create${className}Mock = () => {
+  return new ${className}Entity({`
+
 
     for (const column of columns) {
-      template += `${column.camelCaseColumnName}: ${PostgresStringConverter.getMockByTsType(column)}, \n`
+      mockEntityTemplate += `${column.camelCaseColumnName}: ${PostgresStringConverter.getMockByTsType(column)}, \n`
     }
 
-    template += ` }) 
-            }
-         `
-    return template
+    mockEntityTemplate += ` 
+  }) 
+}
+`
+
+    return mockEntityTemplate
   }
 
 }
