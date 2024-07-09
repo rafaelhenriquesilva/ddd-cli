@@ -1,26 +1,11 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
+import { TemplateUtil } from "../util/template-util"
 
 export class RepositoryTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
     const variableMapperName = 'row'
     const variableToAction = 'input'
-    // TODO - isolate to use in others files
-    const fieldsToInsertOrUpdate = (): string => {
-      const fields = columns.filter(
-        (data) => data.camelCaseColumnName !== "id" &&
-          data.camelCaseColumnName !== "createdAt" &&
-          data.camelCaseColumnName !== "updatedAt"
-      )
-
-      let template = ''
-
-      for (const column of fields) {
-        template += `{name: '${column.columnName}', value: ${variableToAction}.${column.camelCaseColumnName} }, \n`
-      }
-
-      return template
-    }
 
 
     let template = `
@@ -34,33 +19,8 @@ export class RepositoryTemplate {
     template += this.makeMappperTemplate(columns, variableMapperName, className)
     template += this.makeDeleteTemplate(id)
     template += this.makeFindByIdTemplate(className, id)
-    template += `  
-            async insert(${variableToAction}: Partial<${className}Entity>):Promise<Partial<${className}Entity[]>> {
-                    return await this.connection.insert({
-                        fields:\n[`
-
-    template += fieldsToInsertOrUpdate()
-
-    template += ` ], table: this.tableName,
-                        retuning: {
-                            name: 'id'
-                        }
-                    })
-            }
-                    
-            
-            async update(${variableToAction}: Partial<${className}Entity>): Promise<void> {
-                await this.connection.update({
-                    fields: \n[`
-    template += fieldsToInsertOrUpdate()
-
-    template += `], table: this.tableName,
-                    where: [{
-                        name: 'id',
-                        value: ${variableToAction}.id
-                    }]
-                })
-            }`
+    template += this.makeInsertTemplate(columns, variableToAction, className)
+    template += this.makeUpdateTemplate(columns, variableToAction, className)
 
     template += '}'
     return template
@@ -147,5 +107,48 @@ export class RepositoryTemplate {
 
              }
     `
+  }
+
+  static makeInsertTemplate(columns: PostgresColumnDTO[], variableToAction: string, className: string): string {
+    let insertTemplate = `async insert(${variableToAction}: Partial<${className}Entity>):Promise<Partial<${className}Entity[]>> {
+                    return await this.connection.insert({
+                        fields:\n[`
+
+    insertTemplate += this.makeUpsertFieldsTemplate(columns, variableToAction)
+    insertTemplate += ` ], table: this.tableName,
+                        retuning: {
+                            name: 'id'
+                        }
+                    })
+            }`
+    return insertTemplate
+
+  }
+
+  static makeUpsertFieldsTemplate(columns: PostgresColumnDTO[], variableToAction: string) {
+    const fieldsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
+    let columnsUpsertTemplate = ''
+    for (const column of fieldsToUpsert) {
+      columnsUpsertTemplate += `{name: '${column.columnName}', value: ${variableToAction}.${column.camelCaseColumnName} }, \n`
+    }
+
+    return columnsUpsertTemplate
+  }
+
+
+  static makeUpdateTemplate(columns: PostgresColumnDTO[], variableToAction: string, className: string): string {
+    let updateTemplate = `async update(${variableToAction}: Partial<${className}Entity>): Promise<void> {
+                await this.connection.update({
+                    fields: \n[`
+    updateTemplate += this.makeUpsertFieldsTemplate(columns, variableToAction)
+
+    updateTemplate += `], table: this.tableName,
+                    where: [{
+                        name: 'id',
+                        value: ${variableToAction}.id
+                    }]
+                })
+            }`
+    return updateTemplate
   }
 }
