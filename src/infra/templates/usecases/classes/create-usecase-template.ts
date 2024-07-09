@@ -6,7 +6,7 @@ export class CreateUseCaseTemplate {
     let template = `
         import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
         import { ${className}Entity } from "../../entities/${className}Entity";
-        import { ICreate${className}UseCase, inputCreate${className} } from "../../interfaces/usecases/${className}/ICreate${className}UseCase";
+        import { ICreate${className}UseCase, inputCreate${className} } from "../../interfaces/usecases/${className}/ICreate${className}Usecase";
 
         export class Create${className}UseCase implements ICreate${className}UseCase {
             private repository: GlobalRepositoryInterface<${className}Entity>

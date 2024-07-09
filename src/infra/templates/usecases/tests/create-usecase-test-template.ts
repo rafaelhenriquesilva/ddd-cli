@@ -5,7 +5,7 @@ export class CreateUseCaseTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const columnsToCreate = columns.filter(column => column.columnDefault === null)
     let template = `
-            import { Create${className}UseCase } from "../../../../usecases/${className}/Create${className}UseCase"
+            import { Create${className}UseCase } from "../../../../usecases/${className}/Create${className}Usecase"
             import { create${className}Mock } from "../../mock-entities/${className}/${className}-mock"
             import { repositoryMock } from "../../mock-repositories/repository-mock"
 
