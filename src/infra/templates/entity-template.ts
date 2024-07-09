@@ -8,40 +8,59 @@ export class EntityTemplate {
         {
         
         `
-    for (const column of columns) {
-
-      template += `private readonly _${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
-    }
+    template += EntityTemplate.addingColumnsAndTypes(columns)
 
     template += `\n constructor(dto: ${className}DTO) {`
-    for (const column of columns) {
 
-      template += `this._${column.camelCaseColumnName} = dto.${column.camelCaseColumnName} \n`
-    }
+    template += this.populateEntityWithDto(columns)
     template += `}\n`
 
+    template += this.createGettersToColumns(columns)
+    template += this.createObjectReturn(columns, className)
 
+    template += '}'
+    return template
+  }
+
+  static addingColumnsAndTypes(columns: PostgresColumnDTO[]): string {
+    let fieldsTemplate = ''
+    for (const column of columns) {
+      fieldsTemplate += `private readonly _${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
+    }
+    return fieldsTemplate
+  }
+
+  static populateEntityWithDto(columns: PostgresColumnDTO[]): string {
+    let populateConstructorTemplate = ''
     for (const column of columns) {
 
-      template += `
+      populateConstructorTemplate += `this._${column.camelCaseColumnName} = dto.${column.camelCaseColumnName} \n`
+    }
+    return populateConstructorTemplate
+  }
+
+  static createGettersToColumns(columns: PostgresColumnDTO[]) {
+    let getTemplate = ''
+    for (const column of columns) {
+
+      getTemplate += `
                public get ${column.camelCaseColumnName}(): ${column.dataTypeTS} {
                       return this._${column.camelCaseColumnName}
               } \n`
     }
-    // public set ${camelCaseColumnName}(value: ${dataTypeTS}) {
-    //     this._${camelCaseColumnName} = value
-    // }\n
+    return getTemplate
+  }
 
-    template += `toJson(): ${className}DTO {\n`
-    template += `return {\n`
+  static createObjectReturn(columns: PostgresColumnDTO[], className: string): string {
+    let finishTemplate = ''
+    finishTemplate += `toJson(): ${className}DTO {\n`
+    finishTemplate += `return {\n`
     for (const column of columns) {
-
-      template += `${column.camelCaseColumnName}: this.${column.camelCaseColumnName}, \n`
+      finishTemplate += `${column.camelCaseColumnName}: this.${column.camelCaseColumnName}, \n`
     }
-    template += `}\n`
-    template += `}\n`
+    finishTemplate += `}\n`
+    finishTemplate += `}\n`
 
-    template += '}'
-    return template
+    return finishTemplate
   }
 }
