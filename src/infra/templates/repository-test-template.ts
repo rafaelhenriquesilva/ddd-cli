@@ -1,19 +1,10 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
+import { TemplateUtil } from "../util/template-util"
 
 export class RepositoryTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
-
-    const fieldsToInsertOrUpdate = (): PostgresColumnDTO[] => {
-      const fields = columns.filter(
-        (data) => data.camelCaseColumnName !== "id" &&
-                    data.camelCaseColumnName !== "createdAt" &&
-                    data.camelCaseColumnName !== "updatedAt"
-      )
-
-      return fields
-    }
-
+    const columnsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
     let template = `
        import { ${className}Entity } from '../../../entities/${className}Entity'
        import { ${className}Repository } from '../../../repositories/${className}Repository'
@@ -42,7 +33,7 @@ export class RepositoryTestTemplate {
                         id: dataId,
                    `
 
-    for(const data of fieldsToInsertOrUpdate()) {
+    for(const data of columnsToUpsert) {
       template += `${data.camelCaseColumnName}: mockToUpdate.${data.camelCaseColumnName}, \n`
     }
                    
@@ -55,7 +46,7 @@ export class RepositoryTestTemplate {
                          const result = await repository.findById(dataId)
                          expect(result.length).toBe(1)
                 `
-    for(const data of fieldsToInsertOrUpdate()) {
+    for(const data of columnsToUpsert) {
       template += `expect(result[0].${data.camelCaseColumnName}).toBe(mockToUpdate.${data.camelCaseColumnName}) \n`
     }
                 
