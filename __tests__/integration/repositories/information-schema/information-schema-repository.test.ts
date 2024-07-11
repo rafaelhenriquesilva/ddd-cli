@@ -33,7 +33,7 @@ describe('table fake: database actions', () => {
   })
 
   it('SELECT colums of ' + table, async() => {
-    const result = await repository.findColumnsByNames(table, schemaName)
+    const result = await repository.findColumnsByNames(schemaName, table)
    
     expect(result.length === 4).toBe(true)
   })

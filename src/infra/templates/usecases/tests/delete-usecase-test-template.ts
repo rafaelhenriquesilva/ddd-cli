@@ -11,7 +11,7 @@ export class DeleteUseCaseTestTemplate {
 
                 beforeEach(() => {
                     usecase = new Delete${className}UseCase(repositoryMock)
-                })`;
+                })`
 
     template += this.createHandleTestTemplate(className)
 

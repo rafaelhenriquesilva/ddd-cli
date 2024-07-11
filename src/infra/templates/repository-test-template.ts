@@ -5,7 +5,7 @@ export class RepositoryTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
     const columnsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
-    let emptyColumn = id?.dataTypeTS === 'string' ? '' : 0
+    const emptyColumn = id?.dataTypeTS === 'string' ? `''` : 0
 
     let template = `
        import { ${className}Entity } from '../../../entities/${className}Entity'

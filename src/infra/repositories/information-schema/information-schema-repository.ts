@@ -1,18 +1,18 @@
 import { InformationSchemaTableDTO, InformationSchemaTableColumnDTO } from '../../../domain/dto'
-import {InformationSchemaRepositoryInterface} from '../../../domain/repositories'
-import {DatabaseConnection} from '../../database/database-connection'
+import { InformationSchemaRepositoryInterface } from '../../../domain/repositories'
+import { DatabaseConnection } from '../../database/database-connection'
 
 export class InformationSchemaRepository implements InformationSchemaRepositoryInterface {
   connection: DatabaseConnection
   constructor() {
-    this.connection = DatabaseConnection.getInstance() 
+    this.connection = DatabaseConnection.getInstance()
   }
 
   async findTablesBySchemaName(schemaName: string): Promise<InformationSchemaTableDTO[]> {
     const SchemaModel = await this.connection.find({
       table: 'information_schema.tables',
       fields: [
-        {name: '*' }
+        { name: '*' }
       ],
       where: [{
         name: 'table_schema',
@@ -26,41 +26,27 @@ export class InformationSchemaRepository implements InformationSchemaRepositoryI
       }
     })
   }
-    
-  async findColumnsByNames(tableName: string, schemaName: string): Promise<InformationSchemaTableColumnDTO[]> {
+
+  async findColumnsByNames(schemaName: string, tableName?: string,): Promise<InformationSchemaTableColumnDTO[]> {
+    const whereList = [
+      {
+        name: 'table_schema',
+        value: schemaName
+      }
+    ]
+
+    if (tableName) {
+      whereList.push({
+        name: 'table_name',
+        value: tableName
+      })
+    }
     const TableModel = await this.connection.find({
       table: 'information_schema.columns',
       fields: [
-        {name: '*' }
+        { name: '*' }
       ],
-      where: [
-        {
-          name: 'table_name',
-          value: tableName
-        },
-        {
-          name: 'table_schema',
-          value: schemaName
-        }
-      ]
-    })
-
-    return TableModel.map(row => this.mappingRowToEntity(row))
-  }
-
-
-  async findColumnsBySchema(schemaName: string): Promise<InformationSchemaTableColumnDTO[]> {
-    const TableModel = await this.connection.find({
-      table: 'information_schema.columns',
-      fields: [
-        {name: '*' }
-      ],
-      where: [
-        {
-          name: 'table_schema',
-          value: schemaName
-        }
-      ]
+      where: whereList
     })
 
     return TableModel.map(row => this.mappingRowToEntity(row))

@@ -10,10 +10,10 @@ describe('FindById${className}UseCase', () => {
 
     beforeEach(() => {
         usecase = new FindById${className}UseCase(repositoryMock)
-    })`;
-   template += this.createHandleTestTemplate(className)
+    })`
+    template += this.createHandleTestTemplate(className)
 
- template += `})`
+    template += `})`
     return template
   }
 
