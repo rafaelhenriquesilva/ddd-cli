@@ -5,4 +5,7 @@ export interface InformationSchemaTableDTO {
 }
 
 export interface InformationSchemaTableColumnDTO 
-extends Omit<PostgresColumnDTO, 'camelCaseColumnName' | 'dataTypeTS' | 'schema' | 'table'> {}
+extends Omit<PostgresColumnDTO, 'camelCaseColumnName' | 'dataTypeTS' | 'schema' | 'table'> {
+    tableName:string
+    schemaName:string
+}

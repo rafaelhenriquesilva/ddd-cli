@@ -5,6 +5,8 @@ export class RepositoryTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     const id: any = columns.find(data => data.camelCaseColumnName === 'id') || 'any'
     const columnsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
+    let emptyColumn = id?.dataTypeTS === 'string' ? '' : 0
+
     let template = `
        import { ${className}Entity } from '../../../entities/${className}Entity'
        import { ${className}Repository } from '../../../repositories/${className}Repository'
@@ -23,7 +25,7 @@ export class RepositoryTestTemplate {
 
                 it('${className}Repository Insert', async() => {
                     const result = await repository.insert(data)
-                    dataId = result && result.length > 0 && typeof result[0]?.id == '${id?.dataTypeTS}' ? result[0]?.id : '' 
+                    dataId = result && result.length > 0 && typeof result[0]?.id == '${id?.dataTypeTS}' ? result[0]?.id : ${emptyColumn} 
                     expect(result[0]?.id).toBeDefined()
                 })
 

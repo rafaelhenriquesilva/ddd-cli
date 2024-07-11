@@ -45,14 +45,36 @@ export class InformationSchemaRepository implements InformationSchemaRepositoryI
       ]
     })
 
-    return TableModel.map(row => {
-      return {
-        columnName: row.column_name,
-        columnDefault: row.column_default,
-        isNullable: row.is_nullable,
-        dataType: row.data_type,
-      }
+    return TableModel.map(row => this.mappingRowToEntity(row))
+  }
+
+
+  async findColumnsBySchema(schemaName: string): Promise<InformationSchemaTableColumnDTO[]> {
+    const TableModel = await this.connection.find({
+      table: 'information_schema.columns',
+      fields: [
+        {name: '*' }
+      ],
+      where: [
+        {
+          name: 'table_schema',
+          value: schemaName
+        }
+      ]
     })
+
+    return TableModel.map(row => this.mappingRowToEntity(row))
+  }
+
+  private mappingRowToEntity(row: any): InformationSchemaTableColumnDTO {
+    return {
+      columnName: row.column_name,
+      columnDefault: row.column_default,
+      isNullable: row.is_nullable,
+      dataType: row.data_type,
+      tableName: row.table_name,
+      schemaName: row.table_schema
+    }
   }
 
 }
