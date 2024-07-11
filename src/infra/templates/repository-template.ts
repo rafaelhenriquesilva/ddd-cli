@@ -27,7 +27,7 @@ export class RepositoryTemplate {
   }
 
   static initializeAttributesRepository(columns: PostgresColumnDTO[]): string {
-    let initTemplate = `
+    const initTemplate = `
      connection: DatabaseConnection
             tableName: string
 
@@ -42,7 +42,7 @@ export class RepositoryTemplate {
   }
 
   static makeListAlltemplate(className: string): string {
-    let listAllTemplate = `
+    const listAllTemplate = `
     async listAll(): Promise<${className}Entity[]> {
                 const SchemaModel = await this.connection.find({
                 table: this.tableName,

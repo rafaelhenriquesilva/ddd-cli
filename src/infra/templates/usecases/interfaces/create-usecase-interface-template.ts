@@ -9,7 +9,7 @@ export class CreateUseCaseInterfaceTemplate {
           export interface ICreate${className}UseCase {
               handle(input: inputCreate${className}): Promise<void>
           }`
-          template+= this.createInputUseCase(className,columns)
+    template+= this.createInputUseCase(className,columns)
 
        
     return template

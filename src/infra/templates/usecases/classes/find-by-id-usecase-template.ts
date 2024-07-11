@@ -17,9 +17,9 @@ export class FindByIdUseCaseTemplate {
                         repository: GlobalRepositoryInterface<${className}Entity>
                     ) {
                         this.repository = repository
-                    }`;
-                template += this.createHandleMethod(className,typeColumn)
-                template += `} \n`
+                    }`
+    template += this.createHandleMethod(className,typeColumn)
+    template += `} \n`
       
 
     return template

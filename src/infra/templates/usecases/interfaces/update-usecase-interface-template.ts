@@ -9,7 +9,7 @@ export class UpdateUseCaseInterfaceTemplate {
               handle(input: inputUpdate${className}): Promise<void>
           }`
     
-          template += this.createInputUseCase(className, columns)
+    template += this.createInputUseCase(className, columns)
 
     return template
   }

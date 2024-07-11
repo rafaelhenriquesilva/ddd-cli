@@ -3,7 +3,6 @@ import { TemplateUtil } from "../../../util/template-util"
 
 export class CreateUseCaseTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
-    const columnsToCreate = columns.filter(column => column.columnDefault === null)
     let template = `
         import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
         import { ${className}Entity } from "../../entities/${className}Entity";
@@ -17,7 +16,7 @@ export class CreateUseCaseTemplate {
             ) {
                 this.repository = repository
             }`
-            template += this.createHandleMethod(className, columns)
+    template += this.createHandleMethod(className, columns)
     template += `\n }`
     return template
   }

@@ -1,5 +1,5 @@
 import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
-import { TemplateUtil } from "../../../util/template-util";
+import { TemplateUtil } from "../../../util/template-util"
 
 export class UpdateUseCaseTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
@@ -15,7 +15,7 @@ export class UpdateUseCaseTemplate {
                 repository: GlobalRepositoryInterface<${className}Entity>
             ) {
                 this.repository = repository
-            }`;
+            }`
     template += this.createHandleMethod(className, columns)
     template += `}`
     return template
@@ -25,7 +25,7 @@ export class UpdateUseCaseTemplate {
     const fieldsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
     const idColumn = TemplateUtil.findIdColumn(columns)
     let handleTemplate = `async handle(input: inputUpdate${className}): Promise<void> {
-      await this.repository.update({\n`;
+      await this.repository.update({\n`
     if (idColumn) {
       handleTemplate += `${idColumn.camelCaseColumnName}: input.${idColumn.camelCaseColumnName}, \n`
     }

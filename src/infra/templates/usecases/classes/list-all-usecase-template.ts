@@ -12,10 +12,10 @@ export class ListAllUseCaseTemplate {
                         repository: GlobalRepositoryInterface<${className}Entity>
                     ) {
                         this.repository = repository
-                    }`;
+                    }`
                     
-                    template += this.createHandleMethod(className)
-                    template +=`}\n`
+    template += this.createHandleMethod(className)
+    template +=`}\n`
     return template
   }
 

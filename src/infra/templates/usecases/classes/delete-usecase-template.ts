@@ -17,10 +17,10 @@ export class DeleteUseCaseTemplate {
                         repository: GlobalRepositoryInterface<${className}Entity>
                     ) {
                         this.repository = repository
-                    }`;
+                    }`
                 
-                template += this.createHandleMethod(typeColumn)
-                template += `}\n`
+    template += this.createHandleMethod(typeColumn)
+    template += `}\n`
       
 
     return template
