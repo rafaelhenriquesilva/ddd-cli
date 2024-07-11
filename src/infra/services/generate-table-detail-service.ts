@@ -79,9 +79,9 @@ export class GenerateTableDetailService {
     return {
       ListAllUseCaseInterfaceTemplate: ListAllUseCaseInterfaceTemplate.render(className),
       ListAllUseCaseTemplate: ListAllUseCaseTemplate.render(className),
-      FindByIdUseCaseInterfaceTemplate: FindByIdUseCaseInterfaceTemplate.render(className),
+      FindByIdUseCaseInterfaceTemplate: FindByIdUseCaseInterfaceTemplate.render(className, postgresColumns),
       FindByIdUseCaseTemplate: FindByIdUseCaseTemplate.render(className),
-      DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className),
+      DeleteUseCaseInterfaceTemplate: DeleteUseCaseInterfaceTemplate.render(className, postgresColumns),
       DeleteUseCaseTemplate: DeleteUseCaseTemplate.render(className),
       CreateUseCaseInterfaceTemplate: CreateUseCaseInterfaceTemplate.render(className, postgresColumns),
       CreateUseCaseTemplate: CreateUseCaseTemplate.render(className, postgresColumns),

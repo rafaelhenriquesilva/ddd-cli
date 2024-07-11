@@ -1,27 +1,34 @@
 import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
+import { TemplateUtil } from "../../../util/template-util"
 
 
 export class UpdateUseCaseInterfaceTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
-    const columnsToUpdate = columns.filter(column => column.columnDefault === null)
-    const idColumn = columns.find(column => column.columnName === 'id')
     let template = `
           export interface IUpdate${className}UseCase {
               handle(input: inputUpdate${className}): Promise<void>
-          }
+          }`
+    
+          template += this.createInputUseCase(className, columns)
 
-        export interface inputUpdate${className} { \n `
-    if (idColumn) {
-      template += `${idColumn.camelCaseColumnName}: ${idColumn.dataTypeTS} \n`
-    }
-    for (const column of columnsToUpdate) {
-
-      template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
-    }
-
-
-    template += '\n}'
     return template
+  }
+
+  static createInputUseCase(className: string, columns: PostgresColumnDTO[]): string {
+    const fieldsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
+    const idColumn = TemplateUtil.findIdColumn(columns)
+    let createUseCaseInputTemplate = `\n export interface inputUpdate${className} { \n` 
+    if (idColumn) {
+      createUseCaseInputTemplate += `${idColumn.camelCaseColumnName}: ${idColumn.dataTypeTS} \n`
+    }
+    for (const column of fieldsToUpsert) {
+
+      createUseCaseInputTemplate += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
+    }
+
+    createUseCaseInputTemplate += '\n}'
+
+    return createUseCaseInputTemplate
   }
 }
 

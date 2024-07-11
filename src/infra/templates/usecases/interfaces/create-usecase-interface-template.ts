@@ -1,22 +1,31 @@
 import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
+import { TemplateUtil } from "../../../util/template-util"
 
 
 export class CreateUseCaseInterfaceTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
-    const columnsToCreate = columns.filter(column => column.columnDefault === null)
+    
     let template = `
           export interface ICreate${className}UseCase {
               handle(input: inputCreate${className}): Promise<void>
-          }
+          }`
+          template+= this.createInputUseCase(className,columns)
 
-        export interface inputCreate${className} { \n `
-    for (const column of columnsToCreate) {
+       
+    return template
+  }
 
-      template += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
+  static createInputUseCase(className: string, columns: PostgresColumnDTO[]): string {
+    const fieldsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
+    let createUseCaseInputTemplate = `\n export interface inputCreate${className} { \n` 
+    for (const column of fieldsToUpsert) {
+
+      createUseCaseInputTemplate += `${column.camelCaseColumnName}: ${column.dataTypeTS} \n`
     }
 
-    template += '\n}'
-    return template
+    createUseCaseInputTemplate += '\n}'
+
+    return createUseCaseInputTemplate
   }
 }
 
