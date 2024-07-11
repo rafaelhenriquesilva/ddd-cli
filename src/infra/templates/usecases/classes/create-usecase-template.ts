@@ -1,4 +1,5 @@
 import { PostgresColumnDTO } from "../../../../domain/@shared/dto/postgres-column-dto"
+import { TemplateUtil } from "../../../util/template-util"
 
 export class CreateUseCaseTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
@@ -15,21 +16,27 @@ export class CreateUseCaseTemplate {
                 repository: GlobalRepositoryInterface<${className}Entity>
             ) {
                 this.repository = repository
-            }
+            }`
+            template += this.createHandleMethod(className, columns)
+    template += `\n }`
+    return template
+  }
 
-            async handle(input: inputCreate${className}): Promise<void> {
-                await this.repository.insert({
-       \n`
-    for (const column of columnsToCreate) {
+  static createHandleMethod(className: string, columns: PostgresColumnDTO[]): string {
+    const fieldsToUpsert = TemplateUtil.filterColumnsToUpsert(columns)
+    let createHandleUseCaseTemplate = ` 
+async handle(input: inputCreate${className}): Promise<void> {
+  await this.repository.insert({\n`
 
-      template += `${column.camelCaseColumnName}: input.${column.camelCaseColumnName}, \n`
+    for (const column of fieldsToUpsert) {
+
+      createHandleUseCaseTemplate += `${column.camelCaseColumnName}: input.${column.camelCaseColumnName}, \n`
     }
 
-    template += `\n })
-                }
-
-            }`
-    return template
+    createHandleUseCaseTemplate += `
+  })
+}`
+    return createHandleUseCaseTemplate
   }
 }
 

@@ -1,6 +1,6 @@
 export class ListAllUseCaseTemplate {
   static render(className: string): string {
-    const template = `
+    let template = `
                 import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
                 import { ${className}Entity } from "../../entities/${className}Entity";
                 import { IListAll${className}UseCase } from "../../interfaces/usecases/${className}/IListAll${className}UseCase";
@@ -12,15 +12,21 @@ export class ListAllUseCaseTemplate {
                         repository: GlobalRepositoryInterface<${className}Entity>
                     ) {
                         this.repository = repository
-                    }
-
-                    async handle(): Promise<${className}Entity[]> {
-                        const result = await this.repository.listAll()
-                        return result
-                    }
-                }
-       \n`
+                    }`;
+                    
+                    template += this.createHandleMethod(className)
+                    template +=`}\n`
     return template
+  }
+
+  
+  static createHandleMethod(className: string): string {
+    return `
+async handle(): Promise<${className}Entity[]> {
+  const result = await this.repository.listAll()
+  return result
+}
+    `
   }
 }
 
