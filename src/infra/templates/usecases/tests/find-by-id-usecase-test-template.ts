@@ -1,7 +1,7 @@
 export class FindByIdUseCaseTestTemplate {
   static render(className: string): string {
     let template = `
-import { FindById${className}UseCase } from "../../../../usecases/${className}/FindById${className}UseCase"
+import { FindById${className}UseCase } from "../../../../usecases/${className}/FindById${className}Usecase"
 import { create${className}Mock } from "../../mock-entities/${className}/${className}-mock"
 import { repositoryMock } from "../../mock-repositories/repository-mock"
 

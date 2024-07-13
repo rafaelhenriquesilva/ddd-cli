@@ -10,7 +10,7 @@ export class RepositoryTemplate {
 
     let template = `
         import { ${className}Entity } from "../entities/${className}Entity"
-        import { DatabaseConnection } from "../../src/infra/database/database-connection"
+        import { DatabaseConnection } from "../../infra/database/database-connection"
         import { GlobalRepositoryInterface } from "../interfaces/repositories/GlobalRepositoryInterface"
         export class ${className}Repository implements GlobalRepositoryInterface<${className}Entity> {`
 

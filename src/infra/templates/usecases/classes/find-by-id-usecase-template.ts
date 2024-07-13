@@ -8,7 +8,7 @@ export class FindByIdUseCaseTemplate {
     let template = `
                 import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
                 import { ${className}Entity } from "../../entities/${className}Entity";
-                import { IFindById${className}UseCase } from "../../interfaces/usecases/${className}/IFindById${className}UseCase";
+                import { IFindById${className}UseCase } from "../../interfaces/usecases/${className}/IFindById${className}Usecase";
 
                 export class FindById${className}UseCase implements IFindById${className}UseCase {
                     private repository: GlobalRepositoryInterface<${className}Entity>

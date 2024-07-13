@@ -8,7 +8,7 @@ export class DeleteUseCaseTemplate {
     let template = `
                 import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
                 import { ${className}Entity } from "../../entities/${className}Entity";
-                import { IDelete${className}UseCase } from "../../interfaces/usecases/${className}/IDelete${className}UseCase";
+                import { IDelete${className}UseCase } from "../../interfaces/usecases/${className}/IDelete${className}Usecase";
 
                 export class Delete${className}UseCase implements IDelete${className}UseCase {
                     private repository: GlobalRepositoryInterface<${className}Entity>

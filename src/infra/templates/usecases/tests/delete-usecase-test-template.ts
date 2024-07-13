@@ -2,7 +2,7 @@
 export class DeleteUseCaseTestTemplate {
   static render(className: string): string {
     let template = `
-           import { Delete${className}UseCase } from "../../../../usecases/${className}/Delete${className}UseCase"
+           import { Delete${className}UseCase } from "../../../../usecases/${className}/Delete${className}Usecase"
             import { create${className}Mock } from "../../mock-entities/${className}/${className}-mock"
             import { repositoryMock } from "../../mock-repositories/repository-mock"
 

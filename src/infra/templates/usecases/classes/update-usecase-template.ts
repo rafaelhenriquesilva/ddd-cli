@@ -6,7 +6,7 @@ export class UpdateUseCaseTemplate {
     let template = `
         import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
         import { ${className}Entity } from "../../entities/${className}Entity";
-        import { inputUpdate${className}, IUpdate${className}UseCase } from "../../interfaces/usecases/${className}/IUpdate${className}UseCase";
+        import { inputUpdate${className}, IUpdate${className}UseCase } from "../../interfaces/usecases/${className}/IUpdate${className}Usecase";
 
         export class Update${className}UseCase implements IUpdate${className}UseCase {
             private repository: GlobalRepositoryInterface<${className}Entity>

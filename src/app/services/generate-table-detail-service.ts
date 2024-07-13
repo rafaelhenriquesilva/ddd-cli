@@ -1,31 +1,31 @@
 import { PostgresColumnDTO } from "../../domain/@shared/dto/postgres-column-dto"
 import { InformationSchemaTableColumnDTO } from "../../domain/dto"
 import { CRUDUsecaseDTO, TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
-import { InformationSchemaRepository } from "../repositories"
-import { DTOTemplate } from "../templates/dto-template"
-import { EntityTemplate } from "../templates/entity-template"
-import { EntityTestTemplate } from "../templates/entity-test-template"
-import { GlobalRepositoryInterfaceTemplate } from "../templates/global-repository-interface-template"
-import { MockEntityTemplate } from "../templates/mock-entity-template"
-import { MockRepositoryTemplate } from "../templates/mock-repository-template"
-import { RepositoryTemplate } from "../templates/repository-template"
-import { RepositoryTestTemplate } from "../templates/repository-test-template"
-import { CreateUseCaseTemplate } from "../templates/usecases/classes/create-usecase-template"
-import { DeleteUseCaseTemplate } from "../templates/usecases/classes/delete-usecase-template"
-import { FindByIdUseCaseTemplate } from "../templates/usecases/classes/find-by-id-usecase-template"
-import { ListAllUseCaseTemplate } from "../templates/usecases/classes/list-all-usecase-template"
-import { UpdateUseCaseTemplate } from "../templates/usecases/classes/update-usecase-template"
-import { CreateUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/create-usecase-interface-template"
-import { DeleteUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/delete-usecase-interface-template"
-import { FindByIdUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/find-by-id-usecase-interface-template"
-import { ListAllUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/list-all-usecase-interface-template"
-import { UpdateUseCaseInterfaceTemplate } from "../templates/usecases/interfaces/update-usecase-interface-template"
-import { CreateUseCaseTestTemplate } from "../templates/usecases/tests/create-usecase-test-template"
-import { DeleteUseCaseTestTemplate } from "../templates/usecases/tests/delete-usecase-test-template"
-import { FindByIdUseCaseTestTemplate } from "../templates/usecases/tests/find-by-id-usecase-test-template"
-import { ListAllUseCaseTestTemplate } from "../templates/usecases/tests/list-all-usecase-test-template"
-import { UpdateUseCaseTestTemplate } from "../templates/usecases/tests/update-usecase-test-template"
-import { StringUtil } from "../util/string-util"
+import { InformationSchemaRepository } from "../../infra/repositories"
+import { DTOTemplate } from "../../infra/templates/dto-template"
+import { EntityTemplate } from "../../infra/templates/entity-template"
+import { EntityTestTemplate } from "../../infra/templates/entity-test-template"
+import { GlobalRepositoryInterfaceTemplate } from "../../infra/templates/global-repository-interface-template"
+import { MockEntityTemplate } from "../../infra/templates/mock-entity-template"
+import { MockRepositoryTemplate } from "../../infra/templates/mock-repository-template"
+import { RepositoryTemplate } from "../../infra/templates/repository-template"
+import { RepositoryTestTemplate } from "../../infra/templates/repository-test-template"
+import { CreateUseCaseTemplate } from "../../infra/templates/usecases/classes/create-usecase-template"
+import { DeleteUseCaseTemplate } from "../../infra/templates/usecases/classes/delete-usecase-template"
+import { FindByIdUseCaseTemplate } from "../../infra/templates/usecases/classes/find-by-id-usecase-template"
+import { ListAllUseCaseTemplate } from "../../infra/templates/usecases/classes/list-all-usecase-template"
+import { UpdateUseCaseTemplate } from "../../infra/templates/usecases/classes/update-usecase-template"
+import { CreateUseCaseInterfaceTemplate } from "../../infra/templates/usecases/interfaces/create-usecase-interface-template"
+import { DeleteUseCaseInterfaceTemplate } from "../../infra/templates/usecases/interfaces/delete-usecase-interface-template"
+import { FindByIdUseCaseInterfaceTemplate } from "../../infra/templates/usecases/interfaces/find-by-id-usecase-interface-template"
+import { ListAllUseCaseInterfaceTemplate } from "../../infra/templates/usecases/interfaces/list-all-usecase-interface-template"
+import { UpdateUseCaseInterfaceTemplate } from "../../infra/templates/usecases/interfaces/update-usecase-interface-template"
+import { CreateUseCaseTestTemplate } from "../../infra/templates/usecases/tests/create-usecase-test-template"
+import { DeleteUseCaseTestTemplate } from "../../infra/templates/usecases/tests/delete-usecase-test-template"
+import { FindByIdUseCaseTestTemplate } from "../../infra/templates/usecases/tests/find-by-id-usecase-test-template"
+import { ListAllUseCaseTestTemplate } from "../../infra/templates/usecases/tests/list-all-usecase-test-template"
+import { UpdateUseCaseTestTemplate } from "../../infra/templates/usecases/tests/update-usecase-test-template"
+import { StringUtil } from "../../infra/util/string-util"
 
 export class GenerateTableDetailService {
   private _informationSchemaRepository: InformationSchemaRepository
@@ -35,8 +35,16 @@ export class GenerateTableDetailService {
     this._informationSchemaRepository = informationSchemaRepository
   }
 
-  async createTableDetailBySchemaDetail(schemaName: string, tableName: string): Promise<TableDetailDTO> {
-    const columns: InformationSchemaTableColumnDTO[] = await this._informationSchemaRepository.findColumnsByNames(schemaName, tableName)
+  async createTableDetailBySchemaDetail(schemaName: string, tableName: string, columnsOfSystem?:InformationSchemaTableColumnDTO[] ): Promise<TableDetailDTO> {
+    let columns: InformationSchemaTableColumnDTO[] 
+    
+    if(columnsOfSystem) {
+      columns = columnsOfSystem
+    } else {
+      columns = await this._informationSchemaRepository.findColumnsByNames(schemaName, tableName)
+    }
+    
+    
     const postgresColumns: PostgresColumnDTO[] = []
 
     for (const column of columns) {

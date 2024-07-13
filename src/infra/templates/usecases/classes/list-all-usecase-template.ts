@@ -3,7 +3,7 @@ export class ListAllUseCaseTemplate {
     let template = `
                 import {GlobalRepositoryInterface} from '../../interfaces/repositories/GlobalRepositoryInterface'
                 import { ${className}Entity } from "../../entities/${className}Entity";
-                import { IListAll${className}UseCase } from "../../interfaces/usecases/${className}/IListAll${className}UseCase";
+                import { IListAll${className}UseCase } from "../../interfaces/usecases/${className}/IListAll${className}Usecase";
 
                 export class ListAll${className}UseCase implements IListAll${className}UseCase {
                     private repository: GlobalRepositoryInterface<${className}Entity>

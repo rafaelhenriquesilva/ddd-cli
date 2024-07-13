@@ -5,7 +5,7 @@ import { TemplateUtil } from "../../../util/template-util"
 export class UpdateUseCaseTestTemplate {
   static render(className: string, columns: PostgresColumnDTO[]): string {
     let template = `
-            import { Update${className}UseCase } from "../../../../usecases/${className}/Update${className}UseCase"
+            import { Update${className}UseCase } from "../../../../usecases/${className}/Update${className}Usecase"
             import { create${className}Mock } from "../../mock-entities/${className}/${className}-mock"
             import { repositoryMock } from "../../mock-repositories/repository-mock"
 
