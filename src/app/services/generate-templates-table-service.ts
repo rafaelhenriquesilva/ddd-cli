@@ -63,8 +63,8 @@ export class GenerateTemplatesTableService {
     await this.createFile('entities', tableDetail, 'Entity.ts', 'EntityTemplate')
     await this.createFile('__tests__/unit/entities', tableDetail, 'Entity.spec.ts', 'EntityTestTemplate')
     await this.createFile('interfaces/repositories', tableDetail, '', 'GlobalRepositoryInterfaceTemplate', 'GlobalRepositoryInterface.ts')
-    // await this.createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
-    // await this.createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
+    await this.createFile('repositories', tableDetail, 'Repository.ts', 'RepositoryTemplate')
+    await this.createFile('__tests__/integration/repositories', tableDetail, 'Repository.spec.ts', 'RepositoryTestTemplate')
     await this.createFile(`__tests__/unit/mock-entities/${tableDetail.className}`, tableDetail, '', 'MockEntityTemplate', `${tableDetail.className}-mock.ts`)
     
 
