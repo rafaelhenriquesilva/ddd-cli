@@ -14,7 +14,7 @@ describe('Generate a files, DTO, Entity, Entity Test and Repositorie', () => {
   it('Call Information Schema And create file by schema', async() => {
     const tableName = 'developer'
     const tableDetail = await service.createTableDetailBySchemaDetail(schemaName, tableName)
-
+    GenerateTemplatesTableService.isTest = true
     GenerateTemplatesTableService.generateTemplatesByDatabaseInfo(tableDetail)
 
     expect(true).toBe(true)

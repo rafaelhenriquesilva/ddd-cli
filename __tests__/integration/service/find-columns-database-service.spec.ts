@@ -18,7 +18,6 @@ describe('FindColumnsDatabaseService', () => {
            
         const columnsTable: InformationSchemaTableColumnDTO[] | undefined= mappingTableColumns.get(key)
         if(columnsTable) {
-          console.info(columnsTable)
           expect(columnsTable.length > 0).toBe(true)
         }
       }

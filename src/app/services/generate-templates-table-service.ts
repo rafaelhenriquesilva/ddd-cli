@@ -2,7 +2,8 @@ import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
 import { FileUtil } from "../../infra/util/file-util"
 
 export class GenerateTemplatesTableService {
-  static pathFile = __dirname + '../../../new_code'
+  static isTest: boolean
+  static pathFile = __dirname + '../../../../src/new_code'
   static async createFile(folder: string, detail: TableDetailDTO, complement: string,
     templateName:
             'DTOTemplate' |
@@ -17,8 +18,11 @@ export class GenerateTemplatesTableService {
   ) {
     const fileName = className ? className : `${detail.className}${complement}`
     const fileUtil = new FileUtil(this.pathFile)
-    await fileUtil.generateFolder(folder)
-    await fileUtil.generateFile(folder, fileName, detail[templateName])
+    if(!this.isTest) {
+      await fileUtil.generateFolder(folder)
+      await fileUtil.generateFile(folder, fileName, detail[templateName])
+    }
+   
   }
 
   static async createFileUseCase(folder: string, detail: TableDetailDTO,
@@ -42,8 +46,11 @@ export class GenerateTemplatesTableService {
   ) {
     const template = detail.UseCaseDetail[templateName] ? detail.UseCaseDetail[templateName] : ''
     const fileUtil = new FileUtil(this.pathFile)
-    await fileUtil.generateFolder(folder)
-    fileUtil.generateFile(folder, className, template)
+    if(!this.isTest) {
+      await fileUtil.generateFolder(folder)
+      fileUtil.generateFile(folder, className, template)
+    }
+  
   }
 
   static async generateTemplatesByDatabaseInfo(tableDetail: TableDetailDTO) {
