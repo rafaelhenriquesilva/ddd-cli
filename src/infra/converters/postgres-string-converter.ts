@@ -57,7 +57,7 @@ export class PostgresStringConverter {
     'decimal': 'faker.number.float()',
     'numeric': 'faker.number.float()',
     'real': 'faker.number.float()',
-    'double precision': 'faker.number.bigInt()',
+    'double precision': 'faker.number.int()',
     'smallserial': 'faker.number.float()',
     'serial': 'faker.number.float()',
     'bigserial': 'faker.number.float()',
