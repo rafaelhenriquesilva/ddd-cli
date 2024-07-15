@@ -1,10 +1,10 @@
-import { Developer } from '../sequelize-models/Developer-model'
+import { DeveloperModel } from '../sequelize-models/Developer-model'
 import { GlobalRepository } from '../../../domain/repositories/@shared/repository-global-interface'
 
-export class DeveloperSeqRepository implements GlobalRepository<Developer> {
+export class DeveloperSeqRepository implements GlobalRepository<DeveloperModel> {
 
-  async findById(id: string | number): Promise<Developer[]> {
-    const data = await Developer.findByPk(id)
+  async findById(id: string | number): Promise<DeveloperModel[]> {
+    const data = await DeveloperModel.findByPk(id)
 
     if (!data) {
       return []
@@ -13,22 +13,22 @@ export class DeveloperSeqRepository implements GlobalRepository<Developer> {
     }
   }
 
-  async insert(input: any): Promise<Partial<Developer>[]> {
-    const developer = await Developer.create(input)
+  async insert(input: any): Promise<Partial<DeveloperModel>[]> {
+    const developer = await DeveloperModel.create(input)
     return [developer.toJSON()]
   }
-  async listAll(): Promise<Developer[]> {
-    return Developer.findAll()
+  async listAll(): Promise<DeveloperModel[]> {
+    return DeveloperModel.findAll()
   }
 
   async deleteById(id: string): Promise<void> {
-    await Developer.destroy({ where: { id } })
+    await DeveloperModel.destroy({ where: { id } })
   }
 
-  async update(input: Partial<Developer>): Promise<void> {
+  async update(input: Partial<DeveloperModel>): Promise<void> {
     if (!input.id) {
       throw new Error('ID is required for update')
     }
-    await Developer.update(input, { where: { id: input.id } })
+    await DeveloperModel.update(input, { where: { id: input.id } })
   }
 }
