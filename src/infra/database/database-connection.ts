@@ -1,7 +1,7 @@
 import { DatabaseConnectionInterface } from "./@shared/database-connection-interface"
 import { SelectQueryInterface, InsertQueryInterface, UpdateQueryInterface, DeleteQueryInterface } from "./@shared/query-interface"
 import PostgreSQLAdapter from "./postgres/postgres-adapter"
-
+import 'dotenv/config'
 export class DatabaseConnection implements DatabaseConnectionInterface {
   private static instance: DatabaseConnection
   private connection: PostgreSQLAdapter | null = null
@@ -18,10 +18,10 @@ export class DatabaseConnection implements DatabaseConnectionInterface {
   private start(): PostgreSQLAdapter {
     const port: number = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432
     return new PostgreSQLAdapter({
-      database: process.env.DB_NAME || 'playground',
-      host: process.env.DB_HOST || 'localhost',
-      password: process.env.DB_PASSWORD || '1234test',
-      user: process.env.DB_USER || 'rafael.candido',
+      database: process.env.DB_NAME || '',
+      host: process.env.DB_HOST || '',
+      password: process.env.DB_PASSWORD || '',
+      user: process.env.DB_USER || '',
       port
     })
   }

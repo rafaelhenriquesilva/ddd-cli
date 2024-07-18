@@ -5,7 +5,7 @@ import { GenerateTemplatesTableService } from "./app/services/generate-templates
 import { InformationSchemaTableColumnDTO } from "./domain/dto"
 import { CLIParams } from "./domain/services/cli-service-interface"
 import { InformationSchemaRepository } from "./infra/repositories"
-const createProject = async (params: CLIParams) => {
+const createProject = async(params: CLIParams) => {
   const repository = new InformationSchemaRepository()
   const findColumnsDatabaseService = new FindColumnsDatabaseService(repository)
   const generateTableDetailService = new GenerateTableDetailService(repository)
@@ -30,14 +30,14 @@ const createProject = async (params: CLIParams) => {
 }
 
 
-const initializeCLI = async (): Promise<CLIParams> => {
+const initializeCLI = async(): Promise<CLIParams> => {
   const cliService = new CLIService()
   return await cliService.execute()
 
 }
 
 
-const execute = async () => {
+const execute = async() => {
   const cliParams = await initializeCLI()
   createProject(cliParams)
 }
