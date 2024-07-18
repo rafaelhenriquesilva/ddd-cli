@@ -313,3 +313,12 @@ FOR EACH ROW EXECUTE FUNCTION update_timestamps();
 
 
 
+ALTER TABLE gamification.rule_badge_unlock ADD COLUMN id UUID;
+UPDATE gamification.rule_badge_unlock SET id = gen_random_uuid();
+
+ALTER TABLE gamification.task_user ADD COLUMN id UUID;
+UPDATE gamification.task_user SET id = gen_random_uuid();
+
+ALTER TABLE gamification.user_experience ADD COLUMN id UUID;
+UPDATE gamification.user_experience SET id = gen_random_uuid();
+
