@@ -8,3 +8,10 @@ export interface ICLIService {
 }
 
 
+export interface InputDatabaseCLI {
+  DB_NAME: string
+  DB_HOST: string
+  DB_PASSWORD: string
+  DB_USER: string
+}
+
