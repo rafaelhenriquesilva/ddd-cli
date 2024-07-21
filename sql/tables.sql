@@ -1,3 +1,6 @@
+-- Local Comand: 
+-- node .\dist\index.js --schema public --dbname playground --dbhost localhost --dbpass 1234test --dbuser "rafael.candido"
+
 -- Cria a extensão uuid-ossp para gerar UUIDs
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -312,4 +315,13 @@ FOR EACH ROW EXECUTE FUNCTION update_timestamps();
 
 
 
+
+ALTER TABLE gamification.rule_badge_unlock ADD COLUMN id UUID;
+UPDATE gamification.rule_badge_unlock SET id = gen_random_uuid();
+
+ALTER TABLE gamification.task_user ADD COLUMN id UUID;
+UPDATE gamification.task_user SET id = gen_random_uuid();
+
+ALTER TABLE gamification.user_experience ADD COLUMN id UUID;
+UPDATE gamification.user_experience SET id = gen_random_uuid();
 
