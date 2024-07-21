@@ -1,14 +1,15 @@
-import { DatabaseConnectionInterface } from "./@shared/database-connection-interface"
+import { IDatabaseConnection, InputDatabaseConnection } from "./@shared/database-connection-interface"
 import { SelectQueryInterface, InsertQueryInterface, UpdateQueryInterface, DeleteQueryInterface } from "./@shared/query-interface"
 import PostgreSQLAdapter from "./postgres/postgres-adapter"
-
-export class DatabaseConnection implements DatabaseConnectionInterface {
+import 'dotenv/config'
+export class DatabaseConnection implements IDatabaseConnection {
   private static instance: DatabaseConnection
   private connection: PostgreSQLAdapter | null = null
-
-  private constructor() {}
+  static dbConfig: InputDatabaseConnection | null
+  private constructor() { }
 
   static getInstance(): DatabaseConnection {
+
     if (!DatabaseConnection.instance) {
       DatabaseConnection.instance = new DatabaseConnection()
     }
@@ -16,12 +17,15 @@ export class DatabaseConnection implements DatabaseConnectionInterface {
   }
 
   private start(): PostgreSQLAdapter {
-    const port: number = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432
+    const port: number =
+      DatabaseConnection.dbConfig?.DB_PORT ?
+        DatabaseConnection.dbConfig.DB_PORT : process.env.DB_PORT ?
+          parseInt(process.env.DB_PORT) : 5432
     return new PostgreSQLAdapter({
-      database: process.env.DB_NAME || 'playground',
-      host: process.env.DB_HOST || 'localhost',
-      password: process.env.DB_PASSWORD || '1234test',
-      user: process.env.DB_USER || 'rafael.candido',
+      database: DatabaseConnection.dbConfig?.DB_NAME || process.env.DB_NAME || '',
+      host: DatabaseConnection.dbConfig?.DB_HOST || process.env.DB_HOST || '',
+      password: DatabaseConnection.dbConfig?.DB_PASSWORD || process.env.DB_PASSWORD || '',
+      user: DatabaseConnection.dbConfig?.DB_USER || process.env.DB_USER || '',
       port
     })
   }
