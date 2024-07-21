@@ -1,18 +1,41 @@
-import fs from 'fs'
-import path from 'path';
+import { FileUtil } from './infra/util/file-util';
 
-const sourceFilePath = path.join(__dirname, '../src/infra/database/@shared/query-interface');
-const destinationFolderPath = path.join(__dirname, '../new-project/infra/database/@shared');
-const destinationFilePath = path.join(destinationFolderPath, 'query-interface.ts');
 
-if (!fs.existsSync(destinationFolderPath)) {
-    fs.mkdirSync(destinationFolderPath, { recursive: true });
+const cloneFiles = async () => {
+    const fileUtil = new FileUtil(__dirname)
+    // Clone Query Interface
+    await fileUtil.cloneFile(
+        '../src/infra/database/@shared',
+        '../new-project/src/infra/database/@shared',
+        'query-interface.ts'
+    )
+    // Clone Postgres Query Adapter
+    await fileUtil.cloneFile(
+        '../src/infra/adapters',
+        '../new-project/src/infra/adapters',
+        'postgres-query-adapter.ts'
+    )
+
+     // Clone Postgres Adapter
+     await fileUtil.cloneFile(
+        '../src/infra/database/postgres',
+        '../new-project/src/infra/database/postgres',
+        'postgres-adapter.ts'
+    )
+
+    // Clone Database Connection Interface
+    await fileUtil.cloneFile(
+        '../src/infra/database/@shared',
+        '../new-project/src/infra/database/@shared',
+        'database-connection-interface.ts'
+    )
+
+    // Clone Database Connection
+    await fileUtil.cloneFile(
+        '../src/infra/database',
+        '../new-project/src/infra/database',
+        'database-connection.ts'
+    )
 }
 
-fs.copyFile(sourceFilePath, destinationFilePath, (err) => {
-    if (err) {
-        console.error('Erro ao copiar o arquivo:', err);
-    } else {
-        console.log('Arquivo copiado com sucesso!');
-    }
-});
+cloneFiles()
