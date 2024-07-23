@@ -1,7 +1,7 @@
 import { FileUtil } from './infra/util/file-util';
 
 
-const cloneFiles = async () => {
+export const cloneDefaultFiles = async () => {
     const fileUtil = new FileUtil(__dirname)
     // Clone Query Interface
     await fileUtil.cloneFile(
@@ -36,6 +36,48 @@ const cloneFiles = async () => {
         '../new-project/src/infra/database',
         'database-connection.ts'
     )
-}
 
-cloneFiles()
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        '.eslintrc.json'
+    )
+
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        'jest.config.js'
+    )
+
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        'jest.setup.ts'
+    )
+
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        'package.json'
+    )
+
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        '.gitignore'
+    )
+
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        'tsconfig.json'
+    )
+
+    await fileUtil.cloneFile(
+        '../',
+        '../new-project/',
+        '.env'
+    )
+
+    
+}

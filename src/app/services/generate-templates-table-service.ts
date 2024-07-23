@@ -3,7 +3,7 @@ import { FileUtil } from "../../infra/util/file-util"
 
 export class GenerateTemplatesTableService {
   static isTest: boolean
-  static pathFile = __dirname + '../../../../src/new_code'
+  static pathFile = __dirname + '../../../../new-project/src'
   static async createFile(
     folder: string,
     detail: TableDetailDTO | any,
