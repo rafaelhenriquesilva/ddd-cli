@@ -1,52 +1,61 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'fs';
+import path from 'path';
 
 export class FileUtil {
-  private _pathfile: string
+  private _basePath: string;
+  private _cliPath: string;
 
-  constructor(pathfile: string) {
-    this._pathfile = pathfile
+  constructor(basePath: string) {
+    this._basePath = path.resolve(basePath);
+    this._cliPath = path.resolve(path.dirname(require.main?.filename || ''), '..');
   }
 
-  generateFolder(folderPath: string) {
-    const dir = path.join(this._pathfile, folderPath)
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true })
-      console.info(`Path '${folderPath}' created.`)
-    } else {
-      console.info(`Path '${folderPath}' already exists.`)
+  async generateFolder(folderPath: string) {
+    const dir = path.join(this._basePath, folderPath);
+    try {
+      if (!fs.existsSync(dir)) {
+        await fs.promises.mkdir(dir, { recursive: true });
+        console.info(`Path '${folderPath}' created.`);
+      } else {
+        console.info(`Path '${folderPath}' already exists.`);
+      }
+    } catch (err) {
+      console.error(`Error creating path '${folderPath}':`, err);
     }
   }
 
-  generateFile(folderName: string, filename: string, dto_template: string) {
-    const filePath = path.join(this._pathfile, folderName, filename)
-    fs.writeFile(filePath, dto_template, (err: any) => {
-      if (err) {
-        console.error(`Error writing file '${filename}':`, err)
-      }
-    })
+  async generateFile(folderName: string, filename: string, content: string) {
+    const filePath = path.join(this._basePath, folderName, filename);
+    try {
+      await fs.promises.writeFile(filePath, content);
+      console.log(`File '${filename}' created successfully.`);
+    } catch (err) {
+      console.error(`Error writing file '${filename}':`, err);
+    }
   }
 
-  cloneFile(
-    folderOrigin: string,
-    folderDestiny: string,
-    filename: string) {
-
-    const sourceFilePath = path.join(this._pathfile, `${folderOrigin}/${filename}`);
-    const destinationFolderPath = path.join(this._pathfile, folderDestiny);
+  async cloneFile(folderOrigin: string, folderDestiny: string, filename: string) {
+    const sourceFilePath = path.join(this._cliPath, folderOrigin, filename);
+    const destinationFolderPath = path.join(this._basePath, folderDestiny);
     const destinationFilePath = path.join(destinationFolderPath, filename);
 
-    if (!fs.existsSync(destinationFolderPath)) {
-      fs.mkdirSync(destinationFolderPath, { recursive: true });
-    }
+    console.debug(`Source: ${sourceFilePath}`);
+    console.debug(`Destination: ${destinationFilePath}`);
 
-    fs.copyFile(sourceFilePath, destinationFilePath, (err) => {
-      if (err) {
-        console.error(`Erro ao copiar o ${filename}:`, err);
-      } else {
-        console.log(`Arquivo copiado com sucesso: ${filename}!`);
+    try {
+      if (!fs.existsSync(sourceFilePath)) {
+        console.error(`Source file does not exist: ${sourceFilePath}`);
+        return;
       }
-    });
 
+      if (!fs.existsSync(destinationFolderPath)) {
+        await fs.promises.mkdir(destinationFolderPath, { recursive: true });
+      }
+
+      await fs.promises.copyFile(sourceFilePath, destinationFilePath);
+      console.log(`File '${filename}' copied successfully.`);
+    } catch (err) {
+      console.error(`Error copying file '${filename}':`, err);
+    }
   }
 }

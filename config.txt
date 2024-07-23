@@ -1,0 +1,18 @@
+Configure o bin no package.json
+ "bin": {
+    "inicia-pra-eu": "./dist/index.js"
+},
+
+Adicione a Linha Shebang no Arquivo de Entrada
+Certifique-se de que o seu arquivo index.js (ou qualquer outro arquivo de entrada que você especificou) começa com a linha shebang para que ele possa ser executado como um script. Adicione a linha abaixo no topo do arquivo:
+
+#!/usr/bin/env node
+
+
+Instale as dependencias
+npm i
+
+Instale o Pacote Globalmente
+Para instalar o seu pacote CLI globalmente no seu sistema, use o comando:
+
+npm install -g .

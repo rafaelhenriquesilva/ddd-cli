@@ -1,9 +1,9 @@
 import { TableDetailDTO } from "../../domain/dto/table-detail/table-detail-dto"
 import { FileUtil } from "../../infra/util/file-util"
-
+import path from 'path' 
 export class GenerateTemplatesTableService {
   static isTest: boolean
-  static pathFile = __dirname + '../../../../new-project/src'
+  static pathFile = path.resolve(process.cwd(), 'new-project/src')
   static async createFile(
     folder: string,
     detail: TableDetailDTO | any,

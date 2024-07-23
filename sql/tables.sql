@@ -1,5 +1,5 @@
 -- Local Comand: 
--- node .\dist\index.js --schema public --dbname playground --dbhost localhost --dbpass 1234test --dbuser "rafael.candido"
+-- inicia-pra-eu --schema public --dbname playground --dbhost localhost --dbpass 1234test --dbuser "rafael.candido"
 
 -- Cria a extensão uuid-ossp para gerar UUIDs
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
