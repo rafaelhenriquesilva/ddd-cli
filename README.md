@@ -38,7 +38,7 @@ A CLI cria as seguintes classes para cada tabela:
 
 ## Instalação 🌟
 
-
+- Crie o arquivo .env com a variaveis do arquivo .env-test na raiz do projeto
 ### Instalação Global
 
 Para tornar o CLI global e executar, utilize os seguintes comandos:
