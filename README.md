@@ -38,12 +38,18 @@ A CLI cria as seguintes classes para cada tabela:
 
 ## Instalação 🌟
 
+
 ### Instalação Global
 
-Para tornar o CLI global e executar, utilize os seguintes comando:
+Para tornar o CLI global e executar, utilize os seguintes comandos:
+
+- Após o build cole encima do dist/index.js este trecho: 
+    - #!/usr/bin/env node
 
 ```bash
 npm install -g .
+
+npm run build
 
 inicia-pra-eu --help
 
