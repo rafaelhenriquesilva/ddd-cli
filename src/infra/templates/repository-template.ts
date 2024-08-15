@@ -112,13 +112,11 @@ export class RepositoryTemplate {
   static makeInsertTemplate(columns: PostgresColumnDTO[], variableToAction: string, className: string): string {
     let insertTemplate = `async insert(${variableToAction}: Partial<${className}Entity>):Promise<Partial<${className}Entity[]>> {
                     return await this.connection.insert({
-                        fields:\n[`
+                        fields:\n[[`
 
     insertTemplate += this.makeUpsertFieldsTemplate(columns, variableToAction)
-    insertTemplate += ` ], table: this.tableName,
-                        retuning: {
-                            name: 'id'
-                        }
+    insertTemplate += ` ]], 
+                    table: this.tableName,
                     })
             }`
     return insertTemplate

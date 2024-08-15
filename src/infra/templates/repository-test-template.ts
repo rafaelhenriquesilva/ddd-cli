@@ -18,16 +18,22 @@ export class RepositoryTestTemplate {
                 let dataId: ${id?.dataTypeTS}
                 let data: ${className}Entity
                 let mockToUpdate: ${className}Entity
+
                 beforeAll(async() => {
                     data = create${className}Mock()
                     repository = new ${className}Repository()
                 })
 
                 it('${className}Repository Insert', async() => {
-                    const result = await repository.insert(data)
-                    dataId = result && result.length > 0 && typeof result[0]?.id == '${id?.dataTypeTS}' ? result[0]?.id : ${emptyColumn} 
-                    expect(result[0]?.id).toBeDefined()
+                    await repository.insert(data)
                 })
+
+               it('${className}Repository List All', async() => {
+                 const result = await repository.listAll()
+                 expect(result.length > 0).toBe(true)
+                 dataId = result && result.length > 0 && typeof result[0]?.id == '${id?.dataTypeTS}' ? result[0]?.id : ${emptyColumn} 
+                 expect(result[0]?.id).toBeDefined()
+               })
 
                 it('${className}Repository Update', async() => {
                     mockToUpdate = create${className}Mock()
@@ -55,10 +61,7 @@ export class RepositoryTestTemplate {
     template += `
                 })
 
-               it('${className}Repository List All', async() => {
-                 const result = await repository.listAll()
-                 expect(result.length > 0).toBe(true)
-               })
+            
 
                it('${className}Repository Delete', async() => {
                  await repository.deleteById(dataId)
