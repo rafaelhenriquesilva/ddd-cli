@@ -22,17 +22,14 @@ export class PostgresQueryAdapter {
   }
 
   static insert(input: InsertQueryInterface): string {
-    input.fields = input.fields.filter(field => field.value !== undefined && field.value !== null)
-
-    if(input.fields.length === 0) {
-      throw new Error('Insert query needs at least one field. Verify if the fields have correct values!')
+    if (input.fields.length === 0) {
+      throw new Error('Insert many query needs at least one set of fields.')
     }
 
-    let query = `INSERT INTO ${input.table} (`
-    const fieldsName = input.fields.map((data) => data.name)
+    const table = input.table
+    const fieldsName = input.fields[0].map((data) => data.name)
 
-    const fieldsValue = input.fields.map((data) => this.formatQueryValue(data))
-
+    let query = `INSERT INTO ${table} (`
 
     for (const fieldName of fieldsName) {
       query += `${fieldName},`
@@ -40,23 +37,31 @@ export class PostgresQueryAdapter {
 
     query = this.removeWordOfString(query, ',', -1)
 
-    query += `) VALUES (`
+    query += `) VALUES `
 
-    for (const fieldValue of fieldsValue) {
-      query += `${fieldValue},`
+    for (let listFields of input.fields) {
+      if (listFields) {
+        listFields = listFields.filter(field => field.value !== undefined && field.value !== null)
+        if (listFields.length !== fieldsName.length) {
+          throw new Error('All field sets must have the same number of fields.')
+        }
+
+        let values = '('
+        for (const field of listFields) {
+          values += `${this.formatQueryValue(field)},`
+
+        }
+        values = this.removeWordOfString(values, ',', -1)
+        values += '),'
+
+        query += values
+      }
+      
+
     }
-
     query = this.removeWordOfString(query, ',', -1)
-
-    query += ') '
-
-    if(input.retuning) {
-      query += `RETURNING ${input.retuning.name}`
-    }
-
     return query
   }
-
   static update(input: UpdateQueryInterface): string {
     input.fields = input.fields.filter(field => field.value !== undefined && field.value !== null)
     

@@ -18,25 +18,25 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.10",
+    "@faker-js/faker": "latest",
+    "@types/jest": "latest",
+    "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
     "eslint": "^8.57.0",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.4",
-    "typescript": "^5.5.3"
+    "jest": "latest",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "cli-table": "^0.3.1",
-    "commander": "^2.19.0",
-    "dotenv": "^16.4.5",
-    "figlet": "^1.2.1",
-    "inquirer": "^6.2.2",
-    "pg": "^8.12.0",
-    "pg-promise": "^11.8.0",
-    "shelljs": "^0.8.3"
+    "chalk": "latest",
+    "cli-table": "latest",
+    "commander": "latest",
+    "dotenv": "latest",
+    "figlet": "latest",
+    "inquirer": "latest",
+    "pg": "latest",
+    "pg-promise": "latest",
+    "shelljs": "latest"
   }
 }

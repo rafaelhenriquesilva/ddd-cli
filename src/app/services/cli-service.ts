@@ -1,74 +1,57 @@
-
-import program from 'commander'
-import { CLIParams, ICLIService, InputDatabaseCLI } from '../../domain/services/cli-service-interface'
-import { DatabaseConnection } from '../../infra/database/database-connection'
+import { Command } from 'commander';
+import { CLIParams, ICLIService, InputDatabaseCLI } from '../../domain/services/cli-service-interface';
+import { DatabaseConnection } from '../../infra/database/database-connection';
 
 function verifyString(value: any) {
-  if (!value) {
-    throw new Error('Invalid string!')
+  if (!value || typeof value !== 'string') {
+    throw new Error('Invalid string!');
   }
-  return value
+  return value;
 }
 
 export class CLIService implements ICLIService {
   async execute(): Promise<CLIParams> {
-
+    const program = new Command();
     program
       .option('-n, --dbname <string>', 'Name of Database', verifyString)
-
-    program
       .option('-h, --dbhost <string>', 'Host of Database', verifyString)
-
-    program
       .option('-p, --dbpass <string>', 'Password of database', verifyString)
-
-    program
-      .option('-u, --dbuser <string>', 'Password of database', verifyString)
-
-    program
+      .option('-u, --dbuser <string>', 'User of database', verifyString)
       .option('-s, --schema <string>', 'Schema of database', verifyString)
+      .option('-t, --table <string>', 'Table on Schema of database', verifyString);
 
-    program
-      .option('-t, --table <string>', 'Table on Schema of database', verifyString)
+    program.parse(process.argv);
 
-    program.parse(process.argv)
+    const options = program.opts();
 
-    const options = program.opts()
-
-    this.checkingRequiredFields(options)
+    this.checkingRequiredFields(options);
 
     this.setDatabaseConfig({
       DB_NAME: options.dbname,
       DB_HOST: options.dbhost,
       DB_PASSWORD: options.dbpass,
-      DB_USER: options.dbuser
-    })
+      DB_USER: options.dbuser,
+    });
 
     return {
       schemaName: options.schema,
-      tableName: options.table
-    }
+      tableName: options.table,
+    };
   }
 
   checkingRequiredFields(options: any) {
-    const requiredKeys = [
-      'dbname',
-      'dbhost',
-      'dbpass',
-      'dbuser',
-      'schema'
-    ]
+    const requiredKeys = ['dbname', 'dbhost', 'dbpass', 'dbuser', 'schema'];
 
-    const errors: string[] = []
+    const errors: string[] = [];
 
     for (const key of requiredKeys) {
       if (!options[key]) {
-        errors.push(`Argument ${key} is required!`)
+        errors.push(`Argument ${key} is required!`);
       }
     }
 
-    if(errors.length > 0) {
-      throw new Error(errors.join('\n'))
+    if (errors.length > 0) {
+      throw new Error(errors.join('\n'));
     }
   }
 
@@ -78,8 +61,7 @@ export class CLIService implements ICLIService {
       DB_NAME: input.DB_NAME,
       DB_PASSWORD: input.DB_PASSWORD,
       DB_PORT: 5432,
-      DB_USER: input.DB_USER
-    }
+      DB_USER: input.DB_USER,
+    };
   }
-
 }
