@@ -19,8 +19,7 @@ export interface UpdateQueryInterface {
 
 export interface InsertQueryInterface {
     table: string
-    fields: QueryField[]
-    retuning?: QueryField
+    fields: QueryField[][]
 }
 
 export interface QueryField {

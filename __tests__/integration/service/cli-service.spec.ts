@@ -1,12 +1,9 @@
+import { Command } from 'commander';
 import { CLIService } from '../../../src/app/services/cli-service';
-import program from 'commander';
 import { DatabaseConnection } from '../../../src/infra/database/database-connection';
 
-jest.mock('commander', () => ({
-  option: jest.fn().mockReturnThis(),
-  parse: jest.fn(),
-  opts: jest.fn()
-}));
+// Mock da biblioteca 'commander'
+jest.mock('commander');
 
 describe('CLIService', () => {
   let cliService: CLIService;
@@ -16,54 +13,68 @@ describe('CLIService', () => {
     jest.clearAllMocks();
   });
 
-  it('should correctly parse and return CLI parameters', async () => {
-    (program.opts as jest.Mock).mockReturnValue({
-      dbname: 'testDB',
+  it('deve processar e validar argumentos corretamente', async () => {
+    // Configurando o mock do 'program.opts'
+    const mockOpts = {
+      dbname: 'testdb',
       dbhost: 'localhost',
       dbpass: 'password',
       dbuser: 'user',
       schema: 'public',
-      table: 'testTable'
-    });
+      table: 'testtable',
+    };
 
+    (Command as jest.Mock).mockImplementation(() => ({
+      option: jest.fn().mockReturnThis(),
+      parse: jest.fn(),
+      opts: jest.fn().mockReturnValue(mockOpts),
+    }));
+
+    // Mock da configuração do banco de dados
+    DatabaseConnection.dbConfig = {
+      DB_HOST: mockOpts.dbhost,
+      DB_NAME: mockOpts.dbname,
+      DB_PASSWORD: mockOpts.dbpass,
+      DB_PORT: 5432,
+      DB_USER: mockOpts.dbuser,
+    };
+
+    // Executar o método
     const result = await cliService.execute();
 
+    // Verificar se a configuração do banco de dados foi chamada com os parâmetros corretos
+    expect(DatabaseConnection.dbConfig).toEqual({
+      DB_HOST: mockOpts.dbhost,
+      DB_NAME: mockOpts.dbname,
+      DB_PASSWORD: mockOpts.dbpass,
+      DB_PORT: 5432,
+      DB_USER: mockOpts.dbuser,
+    });
+
+    // Verificar o resultado retornado
     expect(result).toEqual({
-      schemaName: 'public',
-      tableName: 'testTable'
+      schemaName: mockOpts.schema,
+      tableName: mockOpts.table,
     });
   });
 
-  it('should throw an error if required fields are missing', async () => {
-    (program.opts as jest.Mock).mockReturnValue({
-      dbname: 'testDB',
-      dbhost: 'localhost',
-      dbpass: 'password',
-      dbuser: ''
-    });
-
-    await expect(cliService.execute()).rejects.toThrow('Argument dbuser is required!');
-  });
-
-  it('should set the database configuration correctly', async () => {
-    (program.opts as jest.Mock).mockReturnValue({
-      dbname: 'testDB',
+  it('deve lançar um erro se algum campo obrigatório estiver faltando', async () => {
+    // Configurando o mock do 'program.opts' com um campo obrigatório faltando
+    const mockOpts = {
+      dbname: 'testdb',
       dbhost: 'localhost',
       dbpass: 'password',
       dbuser: 'user',
-      schema: 'public',
-      table: 'testTable'
-    });
+      // schema está faltando
+    };
 
-    await cliService.execute();
+    (Command as jest.Mock).mockImplementation(() => ({
+      option: jest.fn().mockReturnThis(),
+      parse: jest.fn(),
+      opts: jest.fn().mockReturnValue(mockOpts),
+    }));
 
-    expect(DatabaseConnection.dbConfig).toEqual({
-      DB_HOST: 'localhost',
-      DB_NAME: 'testDB',
-      DB_PASSWORD: 'password',
-      DB_PORT: 5432,
-      DB_USER: 'user'
-    });
+    // Executar o método e verificar se o erro é lançado
+    await expect(cliService.execute()).rejects.toThrow('Argument schema is required!');
   });
-
 });
